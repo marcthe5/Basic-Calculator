@@ -23,7 +23,7 @@ import javax.swing.JSeparator;
 public class MainPanel extends JFrame {
 	static MainPanel frame = new MainPanel();
 	
-	protected JLabel Result;
+	protected static JLabel Result;
 	//FIELDS
 	
 	//Result
@@ -47,6 +47,10 @@ public class MainPanel extends JFrame {
 	protected char Csub;
 	protected char Cmult;
 	protected char Cdiv;
+	
+	//Result Iteration
+	protected int i = 0;
+
 	
 	GetSet gs = new GetSet();
 
@@ -235,11 +239,22 @@ public class MainPanel extends JFrame {
 		JButton num2 = new JButton("2");
 		num2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				keypad2 = Integer.parseInt(num1.getLabel());
+				keypad2 = Integer.parseInt(num2.getLabel());
                 gs.setNum1(keypad2);
-				Result.setText(String.valueOf(gs.getNum1()));
+                
+                i++;
+                 
 			}
-		});
+			
+		}
+		);
+		
+		while(num2.isEnabled()) {
+     		Result.setText(String.valueOf(gs.getNum1()));
+
+         }
+		
+		
 		num2.setBorder(null);
 		num2.setFont(new Font("Segoe UI", Font.BOLD, 34));
 		num2.setFocusPainted(false);
