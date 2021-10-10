@@ -11,6 +11,8 @@ import java.awt.Color;
 import javax.swing.border.LineBorder;
 import java.awt.SystemColor;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.Cursor;
@@ -163,6 +165,13 @@ public class MainPanel extends JFrame {
 		contentPane.add(sub);
 		
 		JButton num1 = new JButton("1");
+		num1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				keypad1 = Integer.parseInt(num1.getLabel());
+                gs.setNum1(keypad1);
+				JOptionPane.showMessageDialog(null, gs.getNum1());
+			}
+		});
 		num1.setBorder(null);
 		num1.setFont(new Font("Segoe UI", Font.BOLD, 34));
 		num1.setFocusPainted(false);
@@ -171,6 +180,10 @@ public class MainPanel extends JFrame {
 		contentPane.add(num1);
 		
 		JButton num4 = new JButton("4");
+		num4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		num4.setBorder(null);
 		num4.setFont(new Font("Segoe UI", Font.BOLD, 34));
 		num4.setFocusPainted(false);
@@ -179,6 +192,10 @@ public class MainPanel extends JFrame {
 		contentPane.add(num4);
 		
 		JButton num7 = new JButton("7");
+		num7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		num7.setBorder(null);
 		num7.setFont(new Font("Segoe UI", Font.BOLD, 34));
 		num7.setFocusPainted(false);
@@ -187,6 +204,10 @@ public class MainPanel extends JFrame {
 		contentPane.add(num7);
 		
 		JButton num0 = new JButton("0");
+		num0.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		num0.setBorder(null);
 		num0.setFont(new Font("Segoe UI", Font.BOLD, 34));
 		num0.setFocusPainted(false);
@@ -212,6 +233,13 @@ public class MainPanel extends JFrame {
 		contentPane.add(decimal_bttn);
 		
 		JButton num2 = new JButton("2");
+		num2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				keypad2 = Integer.parseInt(num1.getLabel());
+                gs.setNum1(keypad2);
+				Result.setText(String.valueOf(gs.getNum1()));
+			}
+		});
 		num2.setBorder(null);
 		num2.setFont(new Font("Segoe UI", Font.BOLD, 34));
 		num2.setFocusPainted(false);
@@ -220,6 +248,10 @@ public class MainPanel extends JFrame {
 		contentPane.add(num2);
 		
 		JButton num5 = new JButton("5");
+		num5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		num5.setBorder(null);
 		num5.setFont(new Font("Segoe UI", Font.BOLD, 34));
 		num5.setFocusPainted(false);
@@ -228,6 +260,10 @@ public class MainPanel extends JFrame {
 		contentPane.add(num5);
 		
 		JButton num8 = new JButton("8");
+		num8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		num8.setBorder(null);
 		num8.setFont(new Font("Segoe UI", Font.BOLD, 34));
 		num8.setFocusPainted(false);
@@ -236,6 +272,10 @@ public class MainPanel extends JFrame {
 		contentPane.add(num8);
 		
 		JButton num3 = new JButton("3");
+		num3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		num3.setBorder(null);
 		num3.setFont(new Font("Segoe UI", Font.BOLD, 34));
 		num3.setFocusPainted(false);
@@ -244,6 +284,10 @@ public class MainPanel extends JFrame {
 		contentPane.add(num3);
 		
 		JButton num6 = new JButton("6");
+		num6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		num6.setBorder(null);
 		num6.setFont(new Font("Segoe UI", Font.BOLD, 34));
 		num6.setFocusPainted(false);
@@ -252,6 +296,10 @@ public class MainPanel extends JFrame {
 		contentPane.add(num6);
 		
 		JButton num9 = new JButton("9");
+		num9.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		num9.setBorder(null);
 		num9.setFont(new Font("Segoe UI", Font.BOLD, 34));
 		num9.setFocusPainted(false);
