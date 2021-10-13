@@ -14,9 +14,14 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.List;
+import java.awt.Point;
+
 import javax.swing.JButton;
 import java.awt.Cursor;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.awt.event.ActionEvent;
 import javax.swing.JSeparator;
 
@@ -41,17 +46,36 @@ public class MainPanel extends JFrame {
 	protected int keypad8;
 	protected int keypad9;
 	protected int keypad0;
+	protected String[] numbers = {"1","2","3","4","5","6","7","8","9","0"};
+	
+	//Numbers
+	protected String key1;
+	protected String key2;
+	protected String key3;
+	protected String key4;
+	protected String key5;
+	protected String key6;
+	protected String key7;	
+	protected String key8;
+	protected String key9;
+	protected String key0;
 	
 	//Operators
-	protected char Csum;
-	protected char Csub;
-	protected char Cmult;
-	protected char Cdiv;
+	protected String Csum;
+	protected String Csub;
+	protected String Cmult;
+	protected String Cdiv;
+	protected String[] operators = {"-", "+", "x", "/"};
 	
 	//Result Iteration
 	protected int i = 0;
-
 	
+	//Output-Inputs
+	ArrayList<Integer> numList = new ArrayList<Integer>();
+	ArrayList<String> numList2 = new ArrayList<String>();
+	ArrayList<String> opsList = new ArrayList<String>();
+    Collection<String> list;
+
 	GetSet gs = new GetSet();
 
 	private JPanel contentPane;
@@ -75,6 +99,10 @@ public class MainPanel extends JFrame {
 	 * Create the frame.
 	 */
 	public MainPanel() {
+	    list = numList2;
+	    list = opsList;
+
+
 		setUndecorated(true);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -119,7 +147,10 @@ public class MainPanel extends JFrame {
 		JButton bttn_reset = new JButton("RESET");
 		bttn_reset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				numList.clear();
+				opsList.clear();
 				Result.setText(null);
+				
 			}
 		});
 		bttn_reset.setForeground(Color.WHITE);
@@ -136,6 +167,35 @@ public class MainPanel extends JFrame {
 		contentPane.add(separator_1);
 		
 		JButton sum = new JButton("+");
+		sum.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Csum = (sum.getLabel());
+				opsList.add(String.valueOf(Csum));
+				Csum = opsList.toString();
+				Csum = Csum.substring(1, Csum.length() - 1);
+				Csum = String.valueOf(Csum.replaceAll(" ",""));
+				Csum = String.valueOf(Csum.replaceAll(",",""));
+				
+				
+				try {
+				//toOutput
+				for(String fNum : numbers) {
+					
+				if(Result.getText().contains(fNum)) {	
+				Result.setText(Csum);
+              
+			}
+				else {
+					Result.setText(null);
+				}
+			}
+				}
+				catch(NullPointerException e1) {
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		sum.setForeground(new Color(255, 255, 255));
 		sum.setBackground(Color.DARK_GRAY);
 		sum.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -144,7 +204,37 @@ public class MainPanel extends JFrame {
 		sum.setBounds(334, 290, 89, 94);
 		contentPane.add(sum);
 		
-		JButton mult = new JButton("*");
+		JButton mult = new JButton("x");
+		mult.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Cmult = (mult.getLabel());
+				opsList.add(String.valueOf(Cmult));
+				Cmult = opsList.toString();
+				Cmult = Cmult.substring(1, Cmult.length() - 1);
+				Cmult = String.valueOf(Cmult.replaceAll(" ",""));
+				Cmult = String.valueOf(Cmult.replaceAll(",",""));
+				
+				Result.setText(Cmult);
+				/*
+				try {
+				//toOutput
+				for(String fNum : numbers) {
+					
+				if(Result.getText().contains(fNum)) {	
+				Result.setText(Cmult);
+              
+			}
+				else {
+					Result.setText(null);
+				}
+			}
+				}
+				catch(NullPointerException e1) {
+					e1.printStackTrace();
+				}
+				*/
+			}
+		});
 		mult.setForeground(new Color(255, 255, 255));
 		mult.setFont(new Font("Segoe UI", Font.BOLD, 44));
 		mult.setFocusPainted(false);
@@ -153,6 +243,10 @@ public class MainPanel extends JFrame {
 		contentPane.add(mult);
 		
 		JButton div = new JButton("/");
+		div.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		div.setForeground(new Color(255, 255, 255));
 		div.setFont(new Font("Segoe UI", Font.BOLD, 34));
 		div.setFocusPainted(false);
@@ -161,6 +255,10 @@ public class MainPanel extends JFrame {
 		contentPane.add(div);
 		
 		JButton sub = new JButton("-");
+		sub.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		sub.setForeground(new Color(255, 255, 255));
 		sub.setFont(new Font("Segoe UI", Font.BOLD, 44));
 		sub.setFocusPainted(false);
@@ -229,6 +327,11 @@ public class MainPanel extends JFrame {
 		contentPane.add(equals_bttn);
 		
 		JButton decimal_bttn = new JButton(".");
+		decimal_bttn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});
 		decimal_bttn.setBorder(null);
 		decimal_bttn.setFont(new Font("Segoe UI", Font.BOLD, 34));
 		decimal_bttn.setFocusPainted(false);
@@ -238,23 +341,43 @@ public class MainPanel extends JFrame {
 		
 		JButton num2 = new JButton("2");
 		num2.addActionListener(new ActionListener() {
+			
+
 			public void actionPerformed(ActionEvent e) {
 				keypad2 = Integer.parseInt(num2.getLabel());
-                gs.setNum1(keypad2);
+				numList.add(Integer.valueOf(keypad2));
+				numList2.add(String.valueOf(keypad2));
+			
+				key2 = numList.toString();
+				key2 = key2.substring(1, key2.length() - 1);
+				key2 = String.valueOf(key2.replaceAll(" ",""));
+				key2 = String.valueOf(key2.replaceAll(",",""));
+				
+				Result.setText(key2);
                 
-                i++;
-                 
+				/*
+				try {
+					//toOutput
+					for(String fOps : operators) {
+						
+					if(Result.getText().contains(fOps)) {	
+					Result.setText(null);
+	              
+				}
+					else {
+						Result.setText(key2);
+					}
+				}
+					}
+					catch(NullPointerException e1) {
+						e1.printStackTrace();
+					}
+                 */
 			}
 			
 		}
 		);
-		
-		while(num2.isEnabled()) {
-     		Result.setText(String.valueOf(gs.getNum1()));
-
-         }
-		
-		
+	
 		num2.setBorder(null);
 		num2.setFont(new Font("Segoe UI", Font.BOLD, 34));
 		num2.setFocusPainted(false);
