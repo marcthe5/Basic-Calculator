@@ -22,8 +22,12 @@ import java.awt.Cursor;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.ListIterator;
 import java.awt.event.ActionEvent;
 import javax.swing.JSeparator;
+
+
+
 /* Developer: MAC
  * Date Develop: 10/8/21
  */
@@ -76,7 +80,8 @@ public class MainPanel extends JFrame {
 	protected int num_1;
 	protected int num_2;
 	protected int nums;
-	protected int i = 0;
+	protected int operatorIndex;
+	protected static String OP;
 	
 	//Output-Inputs
 	ArrayList<Integer> numList = new ArrayList<Integer>();
@@ -178,6 +183,7 @@ public class MainPanel extends JFrame {
 		JButton sum = new JButton("+");
 		sum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				OP = "+";
 				Csum = (sum.getLabel());
 				list.add(String.valueOf(Csum));
 				Csum = list.toString();
@@ -186,6 +192,8 @@ public class MainPanel extends JFrame {
 				Csum = String.valueOf(Csum.replaceAll(",",""));
 				
 				Result.setText(Csum);
+				
+				
         /*
 				try {
 				//toOutput
@@ -450,33 +458,50 @@ public class MainPanel extends JFrame {
 		JButton equals_bttn = new JButton("=");
 		equals_bttn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//res = Result.getText();
+
 				
-				for(String num : numbers) {
-				if(Result.getText().contains(num)) {
-				 num_1 = Integer.parseInt(num);	
-			
-					for(String ops : operators) {
-						while(Result.getText().contains(ops)) {		
+		                   
+						//locate operator's
+							for(String lists : list) {
+							if(lists.contains(OP)) {
+								operatorIndex = list.indexOf(OP);
+								//forList (find operator's)
+								ListIterator<String> listOperator = list.listIterator(operatorIndex);
+								
+								//locate number's - 1st digit
+								while(listOperator.hasPrevious()) {
+									String PLO = listOperator.previous();
+						            num_1 = Integer.valueOf(PLO);
+
+
+								
+								//locate number's - 2nd digit
+								while(listOperator.hasNext()) {
+									String NLO = listOperator.next();
+									
+									if(NLO.equals(OP)) {
+									listOperator.remove();
+									num_2 = Integer.valueOf(listOperator.next());
+											
+							//match operators
 							if(Result.getText().contains("-")) {
-								if(Result.getText().contains(num)) {
-									 num_2 = Integer.parseInt(num);
+					
 								nums=num_1 - num_2;
 								res = String.valueOf(nums);
 								Result.setText(res);
 
+							
 							}
-							}
-							if(Result.getText().contains("+")) {
-								if(Result.getText().contains(num)) {
-									 num_2 = Integer.parseInt(num);
+							if(lists.contains("+")) {
 								nums=num_1 + num_2;
 								res = String.valueOf(nums);
-								Result.setText(res);
+								JOptionPane.showMessageDialog(null, res);
+								//Result.setText(res);
 
-							}
+							
 							}
 							if(Result.getText().contains("x")) {
+								
 								nums=num_1 * num_2;
 								res = String.valueOf(nums);
 								Result.setText(res);
@@ -487,14 +512,17 @@ public class MainPanel extends JFrame {
 								res = String.valueOf(nums);
 								Result.setText(res);
 
-							}
-						}
-						
-					
+	
+								
+							
+									}
+								}
+					}}
 				}
 				}
+				
 			}
-			}
+			
 		});
 		
 		JButton num0 = new JButton("0");
