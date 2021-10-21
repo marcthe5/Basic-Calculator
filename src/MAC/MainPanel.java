@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
+import java.awt.Component;
+
 import javax.swing.border.LineBorder;
 import java.awt.SystemColor;
 import javax.swing.JLabel;
@@ -89,7 +91,7 @@ public class MainPanel extends JFrame {
 	ArrayList<String> list = new ArrayList<String>();
 	ArrayList<String> firstOperands = new ArrayList<String>();
 	ArrayList<String> secondOperands = new ArrayList<String>();
-    protected Object PLO;
+    protected Object NLO;
     protected String firstOPS;
     protected String secondOPS;
 
@@ -531,24 +533,23 @@ public class MainPanel extends JFrame {
 								
 								//locate number's - 2nd Operand
 								while(listIter.hasNext()) {
-                                  String listOPS = listIter.next();
+                                 // NLO  = listIter.next();
 
-									
-								if(listOPS.contains(OP)) {
-									listIter.next();
+         
+								if(listIter.next().equals(OP)) {
 									listIter.next();
 									listIter.remove();
+
 								}
-										//listIter.next();
-							            secondOperands.add(listIter.next());
-									
-									
-
-
-
+								else {
+	  							    JOptionPane.showMessageDialog(null,listIter.next().toString());
+					            //secondOperands.add(listIter.next());
+								}
+								
 									
 								}
-							    JOptionPane.showMessageDialog(null,secondOperands.toString());
+
+							    //JOptionPane.showMessageDialog(null,secondOperands.toString());
 
 								//Remove ArrayList Regix
 								secondOPS = secondOperands.toString();
@@ -558,6 +559,7 @@ public class MainPanel extends JFrame {
 							    //JOptionPane.showMessageDialog(null, secondOPS);
 							    
 								//nums_2 = Integer.valueOf(secondOPS);
+							    JOptionPane.showMessageDialog(null,secondOPS);
 
 								//JOptionPane.showMessageDialog(null, nums_1 + " " + nums_2);
 								
