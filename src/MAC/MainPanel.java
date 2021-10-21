@@ -22,6 +22,7 @@ import java.awt.Cursor;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.ConcurrentModificationException;
 import java.util.ListIterator;
 import java.awt.event.ActionEvent;
 import javax.swing.JSeparator;
@@ -43,7 +44,7 @@ public class MainPanel extends JFrame {
 	protected String output;
 	protected char equals;
     
-	//Numbers
+	//Operands
 	protected int keypad1;
 	protected int keypad2;
 	protected int keypad3;
@@ -54,9 +55,10 @@ public class MainPanel extends JFrame {
 	protected int keypad8;
 	protected int keypad9;
 	protected int keypad0;
+	protected String keypadDec;
 	protected String[] numbers = {"1","2","3","4","5","6","7","8","9","0"};
 	
-	//Numbers
+	//Operands - new instance
 	protected String key1;
 	protected String key2;
 	protected String key3;
@@ -77,20 +79,23 @@ public class MainPanel extends JFrame {
 	
 	//Result 
 	protected String res;
-	protected int num_1;
-	protected int num_2;
+	protected int nums_1;
+	protected int nums_2;
 	protected int nums;
 	protected int operatorIndex;
 	protected static String OP;
 	
 	//Output-Inputs
-	ArrayList<Integer> numList = new ArrayList<Integer>();
 	ArrayList<String> list = new ArrayList<String>();
-	ArrayList<String> opsList = new ArrayList<String>();
-    //Collection<String> list;
+	ArrayList<String> firstOperands = new ArrayList<String>();
+	ArrayList<String> secondOperands = new ArrayList<String>();
+    protected Object PLO;
+    protected String firstOPS;
+    protected String secondOPS;
+
 	
-	//while-ops
-	protected static boolean checkOps = true;
+	//listChecking
+    protected boolean listProceed = false;
 
 	GetSet gs = new GetSet();
 
@@ -115,8 +120,6 @@ public class MainPanel extends JFrame {
 	 * Create the frame.
 	 */
 	public MainPanel() {
-	 
-
 
 		setUndecorated(true);
 		setResizable(false);
@@ -193,26 +196,7 @@ public class MainPanel extends JFrame {
 				
 				Result.setText(Csum);
 				
-				
-        /*
-				try {
-				//toOutput
-				for(String fNum : numbers) {
-					
-				if(Result.getText().contains(fNum)) {	
-				Result.setText(Csum);
-              
-			}
-				else {
-					Result.setText(null);
-					list.clear();
-				}
-			}
-				}
-				catch(NullPointerException e1) {
-					e1.printStackTrace();
-				}
-				*/
+	
 				
 			}
 		});
@@ -227,6 +211,7 @@ public class MainPanel extends JFrame {
 		JButton mult = new JButton("x");
 		mult.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				OP = "x";
 				Cmult = (mult.getLabel());
 				list.add(String.valueOf(Cmult));
 				Cmult = list.toString();
@@ -236,26 +221,6 @@ public class MainPanel extends JFrame {
 				
 				Result.setText(Cmult);
 				
-				/* try {
-				//toOutput
-				for(String fNum : numbers) {
-				if(Result.getText().contains(fNum)) {	
-				Result.setText(Cmult);
-				//checkOps = true;
-			}
-				
-				else {
-					Result.setText(null);
-					//checkOps = false;
-					list.clear();
-				}
-			
-				}
-				}
-				catch(NullPointerException e1) {
-					e1.printStackTrace();
-				}
-				*/
 				
 			}
 		});
@@ -269,6 +234,15 @@ public class MainPanel extends JFrame {
 		JButton div = new JButton("/");
 		div.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				OP = "/";
+				Cdiv = (div.getLabel());
+				list.add(String.valueOf(Cdiv));
+				Cdiv = list.toString();
+				Cdiv = Cdiv.substring(1, Cdiv.length() - 1);
+				Cdiv = String.valueOf(Cdiv.replaceAll(" ",""));
+				Cdiv = String.valueOf(Cdiv.replaceAll(",",""));
+				
+				Result.setText(Cdiv);
 			}
 		});
 		div.setForeground(new Color(255, 255, 255));
@@ -281,6 +255,15 @@ public class MainPanel extends JFrame {
 		JButton sub = new JButton("-");
 		sub.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				OP = "-";
+				Csub = (sub.getLabel());
+				list.add(String.valueOf(Csub));
+				Csub = list.toString();
+				Csub = Csub.substring(1, Csub.length() - 1);
+				Csub = String.valueOf(Csub.replaceAll(" ",""));
+				Csub = String.valueOf(Csub.replaceAll(",",""));
+				
+				Result.setText(Csub);
 			}
 		});
 		sub.setForeground(new Color(255, 255, 255));
@@ -309,6 +292,15 @@ public class MainPanel extends JFrame {
 		JButton decimal_bttn = new JButton(".");
 		decimal_bttn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				keypadDec = decimal_bttn.getLabel();
+				list.add(String.valueOf(keypadDec));
+			
+				keypadDec = list.toString();
+				keypadDec = keypadDec.substring(1, keypadDec.length() - 1);
+				keypadDec = String.valueOf(keypadDec.replaceAll(" ",""));
+				keypadDec = String.valueOf(keypadDec.replaceAll(",",""));
+				
+				Result.setText(keypadDec);
 				
 			}
 		});
@@ -331,7 +323,6 @@ public class MainPanel extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				keypad2 = Integer.parseInt(num2.getLabel());
-				//list.add(Integer.valueOf(keypad2));
 				list.add(String.valueOf(keypad2));
 			
 				key2 = list.toString();
@@ -341,24 +332,7 @@ public class MainPanel extends JFrame {
 				
 				Result.setText(key2);
                 
-				/*
-				try {
-					//toOutput
-					for(String fOps : operators) {
-						
-					if(Result.getText().contains(fOps)) {	
-					Result.setText(null);
-	              
-				}
-					else {
-						Result.setText(key2);
-					}
-				}
-					}
-					catch(NullPointerException e1) {
-						e1.printStackTrace();
-					}
-                 */
+				
 			}
 			
 		}
@@ -374,6 +348,15 @@ public class MainPanel extends JFrame {
 		JButton num3 = new JButton("3");
 		num3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				keypad9 = Integer.parseInt(num3.getLabel());
+			list.add(String.valueOf(keypad9));
+		
+			key3 = list.toString();
+			key3 = key3.substring(1, key3.length() - 1);
+			key3 = String.valueOf(key3.replaceAll(" ",""));
+			key3 = String.valueOf(key3.replaceAll(",",""));
+			
+			Result.setText(key3);
 			}
 		});
 		num3.setBorder(null);
@@ -386,6 +369,15 @@ public class MainPanel extends JFrame {
 		JButton num4 = new JButton("4");
 		num4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				keypad4 = Integer.parseInt(num4.getLabel());
+				list.add(String.valueOf(keypad4));
+			
+				key4 = list.toString();
+				key4 = key4.substring(1, key4.length() - 1);
+				key4 = String.valueOf(key4.replaceAll(" ",""));
+				key4 = String.valueOf(key4.replaceAll(",",""));
+				
+				Result.setText(key4);
 			}
 		});
 		num4.setBorder(null);
@@ -398,6 +390,15 @@ public class MainPanel extends JFrame {
 		JButton num5 = new JButton("5");
 		num5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				keypad5 = Integer.parseInt(num5.getLabel());
+				list.add(String.valueOf(keypad5));
+			
+				key5 = list.toString();
+				key5 = key5.substring(1, key5.length() - 1);
+				key5 = String.valueOf(key5.replaceAll(" ",""));
+				key5 = String.valueOf(key5.replaceAll(",",""));
+				
+				Result.setText(key5);
 			}
 		});
 		num5.setBorder(null);
@@ -410,6 +411,15 @@ public class MainPanel extends JFrame {
 		JButton num6 = new JButton("6");
 		num6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				keypad6 = Integer.parseInt(num6.getLabel());
+				list.add(String.valueOf(keypad6));
+			
+				key6 = list.toString();
+				key6 = key6.substring(1, key6.length() - 1);
+				key6 = String.valueOf(key6.replaceAll(" ",""));
+				key6 = String.valueOf(key6.replaceAll(",",""));
+				
+				Result.setText(key6);
 			}
 		});
 		num6.setBorder(null);
@@ -422,18 +432,45 @@ public class MainPanel extends JFrame {
 		JButton num9 = new JButton("9");
 		num9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				keypad9 = Integer.parseInt(num9.getLabel());
+				list.add(String.valueOf(keypad9));
+			
+				key9 = list.toString();
+				key9 = key9.substring(1, key9.length() - 1);
+				key9 = String.valueOf(key9.replaceAll(" ",""));
+				key9 = String.valueOf(key9.replaceAll(",",""));
+				
+				Result.setText(key9);
 			}
 		});
 		
 		JButton num8 = new JButton("8");
 		num8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				keypad8 = Integer.parseInt(num8.getLabel());
+				list.add(String.valueOf(keypad8));
+			
+				key8 = list.toString();
+				key8 = key8.substring(1, key8.length() - 1);
+				key8 = String.valueOf(key8.replaceAll(" ",""));
+				key8 = String.valueOf(key8.replaceAll(",",""));
+				
+				Result.setText(key8);
 			}
 		});
 		
 		JButton num7 = new JButton("7");
 		num7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				keypad7 = Integer.parseInt(num7.getLabel());
+				list.add(String.valueOf(keypad7));
+			
+				key7 = list.toString();
+				key7 = key7.substring(1, key7.length() - 1);
+				key7 = String.valueOf(key7.replaceAll(" ",""));
+				key7 = String.valueOf(key7.replaceAll(",",""));
+				
+				Result.setText(key7);
 			}
 		});
 		num7.setBorder(null);
@@ -458,76 +495,136 @@ public class MainPanel extends JFrame {
 		JButton equals_bttn = new JButton("=");
 		equals_bttn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
-				
-		                   
+				try {
 						//locate operator's
-							for(String lists : list) {
-							if(lists.contains(OP)) {
+				            if(!list.isEmpty()) {
+				            	listProceed = true;
+				            }
+				            if(listProceed == true) {
+							//for(String lists : list) {
+							if(list.contains(OP)) {
 								operatorIndex = list.indexOf(OP);
+								
 								//forList (find operator's)
-								ListIterator<String> listOperator = list.listIterator(operatorIndex);
+								ListIterator<String> listIter = list.listIterator(operatorIndex); /* The ITERATOR Starts with the OPERATOR */
 								
-								//locate number's - 1st digit
-								while(listOperator.hasPrevious()) {
-									String PLO = listOperator.previous();
-						            num_1 = Integer.valueOf(PLO);
+								//locate number's - 1st Operand
+								while(listIter.hasPrevious()) {
+									firstOperands.add(listIter.previous());
 
-
-								
-								//locate number's - 2nd digit
-								while(listOperator.hasNext()) {
-									String NLO = listOperator.next();
-									
-									if(NLO.equals(OP)) {
-									listOperator.remove();
-									num_2 = Integer.valueOf(listOperator.next());
-											
-							//match operators
-							if(Result.getText().contains("-")) {
-					
-								nums=num_1 - num_2;
-								res = String.valueOf(nums);
-								Result.setText(res);
-
-							
-							}
-							if(lists.contains("+")) {
-								nums=num_1 + num_2;
-								res = String.valueOf(nums);
-								JOptionPane.showMessageDialog(null, res);
-								//Result.setText(res);
-
-							
-							}
-							if(Result.getText().contains("x")) {
-								
-								nums=num_1 * num_2;
-								res = String.valueOf(nums);
-								Result.setText(res);
-
-							}
-							if(Result.getText().contains("/")) {
-								nums=num_1 / num_2;
-								res = String.valueOf(nums);
-								Result.setText(res);
-
-	
-								
-							
 									}
+								
+								//Remove ArrayList Regix
+								firstOPS = firstOperands.toString();
+								firstOPS = firstOPS.substring(1, firstOPS.length() - 1);
+								firstOPS = String.valueOf(firstOPS.replaceAll(" ",""));
+								firstOPS = String.valueOf(firstOPS.replaceAll(",",""));
+								
+								//reverseStringMethod
+								firstOPS = new StringBuilder(firstOPS).reverse().toString();
+							    //JOptionPane.showMessageDialog(null, firstOPS);
+
+					            nums_1 = Integer.valueOf(firstOPS);
+
+								
+								
+								
+								//locate number's - 2nd Operand
+								while(listIter.hasNext()) {
+                                  String listOPS = listIter.next();
+
+									
+								if(listOPS.contains(OP)) {
+									listIter.next();
+									listIter.next();
+									listIter.remove();
 								}
-					}}
+										//listIter.next();
+							            secondOperands.add(listIter.next());
+									
+									
+
+
+
+									
+								}
+							    JOptionPane.showMessageDialog(null,secondOperands.toString());
+
+								//Remove ArrayList Regix
+								secondOPS = secondOperands.toString();
+								secondOPS = secondOPS.substring(1, secondOPS.length() - 1);
+								secondOPS = String.valueOf(secondOPS.replaceAll(" ",""));
+								secondOPS = String.valueOf(secondOPS.replaceAll(",",""));
+							    //JOptionPane.showMessageDialog(null, secondOPS);
+							    
+								//nums_2 = Integer.valueOf(secondOPS);
+
+								//JOptionPane.showMessageDialog(null, nums_1 + " " + nums_2);
+								
+							//match operators
+							if(list.contains("-")) {
+                 				nums=nums_1 - nums_2;
+								res = String.valueOf(nums);
+								Result.setText(res);
+								firstOperands.clear();
+								secondOperands.clear();
+								list.clear();
+
+							
+							}
+							if(list.contains("+")) {
+								nums=nums_1 + nums_2;
+								res = String.valueOf(nums);
+								//JOptionPane.showMessageDialog(null, res);
+								Result.setText(res);
+								firstOperands.clear();
+								secondOperands.clear();
+								list.clear();
+
+							
+							}
+							if(list.contains("x")) {
+								nums=nums_1 * nums_2;
+								res = String.valueOf(nums);
+								Result.setText(res);
+								firstOperands.clear();
+								secondOperands.clear();
+								list.clear();
+
+							}
+							if(list.contains("/")) {
+								nums=nums_1 / nums_2;
+								res = String.valueOf(nums);
+								Result.setText(res);
+								firstOperands.clear();
+								secondOperands.clear();
+								list.clear();
+
+							}
+							}
 				}
-				}
-				
+				            
+				          
 			}
 			
-		});
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}});
 		
 		JButton num0 = new JButton("0");
 		num0.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				keypad0 = Integer.parseInt(num0.getLabel());
+				list.add(String.valueOf(keypad0));
+			
+				key0 = list.toString();
+				key0 = key0.substring(1, key0.length() - 1);
+				key0 = String.valueOf(key0.replaceAll(" ",""));
+				key0 = String.valueOf(key0.replaceAll(",",""));
+				
+				Result.setText(key0);
 			}
 		});
 		num0.setBorder(null);
