@@ -11,6 +11,8 @@ import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.border.LineBorder;
+import javax.swing.text.html.HTMLDocument.Iterator;
+
 import java.awt.SystemColor;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -81,8 +83,8 @@ public class MainPanel extends JFrame {
 	
 	//Result 
 	protected String res;
-	protected int nums_1;
-	protected int nums_2;
+	protected int operand_1;
+	protected int operand_2;
 	protected int nums;
 	protected int operatorIndex;
 	protected static String OP;
@@ -91,7 +93,7 @@ public class MainPanel extends JFrame {
 	ArrayList<String> list = new ArrayList<String>();
 	ArrayList<String> firstOperands = new ArrayList<String>();
 	ArrayList<String> secondOperands = new ArrayList<String>();
-    protected Object NLO;
+    protected String next;
     protected String firstOPS;
     protected String secondOPS;
 
@@ -516,91 +518,117 @@ public class MainPanel extends JFrame {
 
 									}
 								
-								//Remove ArrayList Regix
+								//Removing ArrayList Regex
 								firstOPS = firstOperands.toString();
+
+								if(firstOPS.contains(OP)) {
+									firstOPS = firstOPS.substring(1, firstOPS.length() - 1);
+									firstOPS = String.valueOf(firstOPS.replaceAll(OP,""));
+									firstOPS = String.valueOf(firstOPS.replaceAll(" ",""));
+									firstOPS = String.valueOf(firstOPS.replaceAll(",",""));
+								}
+								else {
 								firstOPS = firstOPS.substring(1, firstOPS.length() - 1);
 								firstOPS = String.valueOf(firstOPS.replaceAll(" ",""));
 								firstOPS = String.valueOf(firstOPS.replaceAll(",",""));
+								}
 								
 								//reverseStringMethod
 								firstOPS = new StringBuilder(firstOPS).reverse().toString();
 							    //JOptionPane.showMessageDialog(null, firstOPS);
 
-					            nums_1 = Integer.valueOf(firstOPS);
-
-								
-								
-								
+					            operand_1 = Integer.valueOf(firstOPS); /* to first Operand */
+    
 								//locate number's - 2nd Operand
 								while(listIter.hasNext()) {
-                                 // NLO  = listIter.next();
-
-         
-								if(listIter.next().equals(OP)) {
-									listIter.next();
-									listIter.remove();
-
-								}
-								else {
-	  							    JOptionPane.showMessageDialog(null,listIter.next().toString());
-					            //secondOperands.add(listIter.next());
-								}
-								
+									
+									next = listIter.next(); 
+									
+									if(next.equals(OP)) {
+										while(listIter.hasNext()) {
+                   	            secondOperands.add(listIter.next()); 
 									
 								}
-
-							    //JOptionPane.showMessageDialog(null,secondOperands.toString());
-
-								//Remove ArrayList Regix
+								}
+								}
+								//Removing ArrayList Regex
 								secondOPS = secondOperands.toString();
+								if(secondOPS.contains(OP)) {
+									secondOPS = secondOPS.substring(1, secondOPS.length() - 1);
+									secondOPS = String.valueOf(secondOPS.replaceAll(OP,""));	
+									secondOPS = String.valueOf(secondOPS.replaceAll(" ",""));
+									secondOPS = String.valueOf(secondOPS.replaceAll(",",""));
+								}
+								else {
 								secondOPS = secondOPS.substring(1, secondOPS.length() - 1);
 								secondOPS = String.valueOf(secondOPS.replaceAll(" ",""));
 								secondOPS = String.valueOf(secondOPS.replaceAll(",",""));
-							    //JOptionPane.showMessageDialog(null, secondOPS);
+								
+								}
 							    
-								//nums_2 = Integer.valueOf(secondOPS);
-							    JOptionPane.showMessageDialog(null,secondOPS);
+								operand_2 = Integer.valueOf(secondOPS); /* to second Operand */
+                               // System.out.println(operand_2);
 
-								//JOptionPane.showMessageDialog(null, nums_1 + " " + nums_2);
+								//JOptionPane.showMessageDialog(null, operand_1 + " " + operand_2);
 								
 							//match operators
 							if(list.contains("-")) {
-                 				nums=nums_1 - nums_2;
+                 				nums=operand_1 - operand_2;
 								res = String.valueOf(nums);
-								Result.setText(res);
-								firstOperands.clear();
-								secondOperands.clear();
-								list.clear();
+								if(operand_1 > operand_2) {
+									Result.setText(res);
+									}
+									else {
+									Result.setText("-"+res);
+									}
+									firstOperands.clear();
+									secondOperands.clear();
+									list.clear();
 
 							
 							}
 							if(list.contains("+")) {
-								nums=nums_1 + nums_2;
+								nums=operand_1 + operand_2;
 								res = String.valueOf(nums);
-								//JOptionPane.showMessageDialog(null, res);
+								if(operand_1 > operand_2) {
 								Result.setText(res);
+								}
+								else {
+								Result.setText("-"+res);
+								}
 								firstOperands.clear();
 								secondOperands.clear();
 								list.clear();
+								
 
 							
 							}
 							if(list.contains("x")) {
-								nums=nums_1 * nums_2;
+								nums=operand_1 * operand_2;
 								res = String.valueOf(nums);
-								Result.setText(res);
-								firstOperands.clear();
-								secondOperands.clear();
-								list.clear();
+								if(operand_1 > operand_2) {
+									Result.setText(res);
+									}
+									else {
+									Result.setText("-"+res);
+									}
+									firstOperands.clear();
+									secondOperands.clear();
+									list.clear();
 
 							}
 							if(list.contains("/")) {
-								nums=nums_1 / nums_2;
+								nums=operand_1 / operand_2;
 								res = String.valueOf(nums);
-								Result.setText(res);
-								firstOperands.clear();
-								secondOperands.clear();
-								list.clear();
+								if(operand_1 > operand_2) {
+									Result.setText(res);
+									}
+									else {
+									Result.setText("-"+res);
+									}
+									firstOperands.clear();
+									secondOperands.clear();
+									list.clear();
 
 							}
 							}
