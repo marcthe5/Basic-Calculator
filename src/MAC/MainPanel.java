@@ -539,11 +539,11 @@ public class MainPanel extends JFrame {
 								firstOPS = new StringBuilder(firstOPS).reverse().toString();
 							    //JOptionPane.showMessageDialog(null, firstOPS);
                                 
-								if(firstOPS.contains(".")) {
-								DoubleOperand_1 = Double.valueOf(firstOPS); /* to first Operand */
+								if(!firstOPS.contains(".")) {
+								operand_1 = Integer.valueOf(firstOPS); /* to first Operand */
 								}
-								else {
-					            operand_1 = Integer.valueOf(firstOPS); /* to first Operand */
+								else if(firstOPS.contains(".")) {
+								DoubleOperand_1 = Double.valueOf(firstOPS); /* to first Operand */
 								}
     
 								//locate number's - 2nd Operand
@@ -573,27 +573,30 @@ public class MainPanel extends JFrame {
 								
 								}
 							    
-								if(secondOPS.contains(".")) {
-								DoubleOperand_2 = Double.valueOf(secondOPS); /* to second Operand */
+								if(!secondOPS.contains(".")) {
+								operand_2 = Integer.valueOf(secondOPS); /* to second Operand */
 								}
-								else {
-					            operand_2 = Integer.valueOf(secondOPS); /* to second Operand */
+								else if(secondOPS.contains(".")) {
+					            DoubleOperand_2 = Double.valueOf(secondOPS); /* to second Operand */
 								}
                                // System.out.println(operand_2);
 
 								//JOptionPane.showMessageDialog(null, operand_1 + " " + operand_2);
 								
-							//match operators
+							//MATCH OPERATORS
 							if(list.contains("-")) {
 								String stringOperand_1 = String.valueOf(DoubleOperand_1);
 								String stringOperand_2 = String.valueOf(DoubleOperand_2);
-								if(operand_1 > operand_2) {
-									nums=operand_1 - operand_2;
+								
+								String stringOperand_11 = String.valueOf(operand_1);
+								String stringOperand_22 = String.valueOf(operand_2);
+								if(operand_1 > operand_2 && (!stringOperand_11.contains(".") && !stringOperand_22.contains("."))) {
+									nums= subMethodInt(operand_1,operand_2);
 									res = String.valueOf(nums);
 								Result.setText(res);
 								}
 								if(stringOperand_1.contains(".") || stringOperand_2.contains(".") && DoubleOperand_1 > DoubleOperand_2) {
-									nums=(int) (DoubleOperand_1 - DoubleOperand_2);
+									nums=(int)subMethodDouble(DoubleOperand_1,DoubleOperand_2);
 									res = String.valueOf(nums);
 								double doubleRes = Double.valueOf(res);
 								Result.setText(String.valueOf(doubleRes));
@@ -604,20 +607,24 @@ public class MainPanel extends JFrame {
 								firstOperands.clear();
 								secondOperands.clear();
 								list.clear();
-
+							}
 								
 							
-							}
+							
 							if(list.contains("+")) {
 								String stringOperand_1 = String.valueOf(DoubleOperand_1);
 								String stringOperand_2 = String.valueOf(DoubleOperand_2);
-								if(operand_1 > operand_2) {
-									nums=operand_1 + operand_2;
+								
+								String stringOperand_11 = String.valueOf(operand_1);
+								String stringOperand_22 = String.valueOf(operand_2);
+								
+								if(operand_1 > operand_2 && (!stringOperand_11.contains(".") && !stringOperand_22.contains("."))) {
+									nums= sumMethodInt(operand_1,operand_2);
 									res = String.valueOf(nums);
 								Result.setText(res);
 								}
 								if(stringOperand_1.contains(".") || stringOperand_2.contains(".") && DoubleOperand_1 > DoubleOperand_2) {
-									nums=(int) (DoubleOperand_1 + DoubleOperand_2);
+									nums= (int)sumMethodDouble(DoubleOperand_1,DoubleOperand_2);
 									res = String.valueOf(nums);
 								double doubleRes = Double.valueOf(res);
 								Result.setText(String.valueOf(doubleRes));
@@ -628,20 +635,23 @@ public class MainPanel extends JFrame {
 								firstOperands.clear();
 								secondOperands.clear();
 								list.clear();
-								
+							}
 
 							
-							}
+							
 							if(list.contains("x")) {
 								String stringOperand_1 = String.valueOf(DoubleOperand_1);
 								String stringOperand_2 = String.valueOf(DoubleOperand_2);
-								if(operand_1 > operand_2) {
-									nums=operand_1 * operand_2;
+								
+								String stringOperand_11 = String.valueOf(operand_1);
+								String stringOperand_22 = String.valueOf(operand_2);
+								if(operand_1 > operand_2 && (!stringOperand_11.contains(".") && !stringOperand_22.contains("."))) {
+									nums=multMethodInt(operand_1,operand_2);
 									res = String.valueOf(nums);
 								Result.setText(res);
 								}
 								if(stringOperand_1.contains(".") || stringOperand_2.contains(".") && DoubleOperand_1 > DoubleOperand_2) {
-									nums=(int) (DoubleOperand_1 * DoubleOperand_2);
+									nums=(int)multMethodDouble(DoubleOperand_1,DoubleOperand_2);
 									res = String.valueOf(nums);
 								double doubleRes = Double.valueOf(res);
 								Result.setText(String.valueOf(doubleRes));
@@ -659,13 +669,16 @@ public class MainPanel extends JFrame {
 							if(list.contains("/")) {
 								String stringOperand_1 = String.valueOf(DoubleOperand_1);
 								String stringOperand_2 = String.valueOf(DoubleOperand_2);
-								if(operand_1 > operand_2) {
-									nums=operand_1 / operand_2;
+								
+								String stringOperand_11 = String.valueOf(operand_1);
+								String stringOperand_22 = String.valueOf(operand_2);
+								if(operand_1 > operand_2 && (!stringOperand_11.contains(".") && !stringOperand_22.contains("."))) {
+									nums=divMethodInt(operand_1,operand_2);
 									res = String.valueOf(nums);
 								Result.setText(res);
 								}
 								if(stringOperand_1.contains(".") || stringOperand_2.contains(".") && DoubleOperand_1 > DoubleOperand_2) {
-									nums=(int) (DoubleOperand_1 / DoubleOperand_2);
+									nums=(int)divMethodDouble(DoubleOperand_1,DoubleOperand_2);
 									res = String.valueOf(nums);
 								double doubleRes = Double.valueOf(res);
 								Result.setText(String.valueOf(doubleRes));
@@ -676,9 +689,9 @@ public class MainPanel extends JFrame {
 								firstOperands.clear();
 								secondOperands.clear();
 								list.clear();
-
 							}
 							}
+							
 				}
 				            
 				          
@@ -717,5 +730,34 @@ public class MainPanel extends JFrame {
 		equals_bttn.setFont(new Font("Segoe UI", Font.BOLD, 36));
 		equals_bttn.setBounds(88, 394, 258, 58);
 		contentPane.add(equals_bttn);
+	}
+	//OVERLOADING METHOD (OPERATORS && DECIMALS)
+	static int subMethodInt(int operand_1, int operand_2) {
+		return operand_1 - operand_2 ;
+		
+	}
+	static double subMethodDouble(Double operand1, Double operand2) {
+		return operand1 - operand2;
+	}
+	static int sumMethodInt(int operand_1, int operand_2) {
+		return operand_1 + operand_2 ;
+		
+	}
+	static double sumMethodDouble(Double operand1, Double operand2) {
+		return operand1 + operand2;
+	}
+	static int multMethodInt(int operand_1, int operand_2) {
+		return operand_1 * operand_2 ;
+		
+	}
+	static double multMethodDouble(Double operand1, Double operand2) {
+		return operand1 * operand2;
+	}
+	static int divMethodInt(int operand_1, int operand_2) {
+		return operand_1 / operand_2 ;
+		
+	}
+	static double divMethodDouble(Double operand1, Double operand2) {
+		return operand1 / operand2;
 	}
 }
