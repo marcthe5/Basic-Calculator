@@ -82,7 +82,7 @@ public class MainPanel extends JFrame {
 	protected String[] operators = {"-", "+", "x", "/"};
 	
 	//Result 
-	protected String res;
+	protected static String res;
 	protected int operand_1;
 	protected int operand_2;
 	protected double DoubleOperand_1;
@@ -543,7 +543,7 @@ public class MainPanel extends JFrame {
 								operand_1 = Integer.valueOf(firstOPS); /* to first Operand */
 								}
 								else if(firstOPS.contains(".")) {
-								DoubleOperand_1 = Double.valueOf(firstOPS); /* to first Operand */
+									DoubleOperand_1 = Double.valueOf(firstOPS); /* to first Operand */
 								}
     
 								//locate number's - 2nd Operand
@@ -577,7 +577,7 @@ public class MainPanel extends JFrame {
 								operand_2 = Integer.valueOf(secondOPS); /* to second Operand */
 								}
 								else if(secondOPS.contains(".")) {
-					            DoubleOperand_2 = Double.valueOf(secondOPS); /* to second Operand */
+									DoubleOperand_2 = Double.valueOf(secondOPS); /* to second Operand */
 								}
                                // System.out.println(operand_2);
 
