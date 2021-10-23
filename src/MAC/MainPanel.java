@@ -85,6 +85,8 @@ public class MainPanel extends JFrame {
 	protected String res;
 	protected int operand_1;
 	protected int operand_2;
+	protected double DoubleOperand_1;
+	protected double DoubleOperand_2;
 	protected int nums;
 	protected int operatorIndex;
 	protected static String OP;
@@ -536,8 +538,13 @@ public class MainPanel extends JFrame {
 								//reverseStringMethod
 								firstOPS = new StringBuilder(firstOPS).reverse().toString();
 							    //JOptionPane.showMessageDialog(null, firstOPS);
-
+                                
+								if(firstOPS.contains(".")) {
+								DoubleOperand_1 = Double.valueOf(firstOPS); /* to first Operand */
+								}
+								else {
 					            operand_1 = Integer.valueOf(firstOPS); /* to first Operand */
+								}
     
 								//locate number's - 2nd Operand
 								while(listIter.hasNext()) {
@@ -566,32 +573,54 @@ public class MainPanel extends JFrame {
 								
 								}
 							    
-								operand_2 = Integer.valueOf(secondOPS); /* to second Operand */
+								if(secondOPS.contains(".")) {
+								DoubleOperand_2 = Double.valueOf(secondOPS); /* to second Operand */
+								}
+								else {
+					            operand_2 = Integer.valueOf(secondOPS); /* to second Operand */
+								}
                                // System.out.println(operand_2);
 
 								//JOptionPane.showMessageDialog(null, operand_1 + " " + operand_2);
 								
 							//match operators
 							if(list.contains("-")) {
-                 				nums=operand_1 - operand_2;
-								res = String.valueOf(nums);
+								String stringOperand_1 = String.valueOf(DoubleOperand_1);
+								String stringOperand_2 = String.valueOf(DoubleOperand_2);
 								if(operand_1 > operand_2) {
-									Result.setText(res);
-									}
-									else {
-									Result.setText("-"+res);
-									}
-									firstOperands.clear();
-									secondOperands.clear();
-									list.clear();
+									nums=operand_1 - operand_2;
+									res = String.valueOf(nums);
+								Result.setText(res);
+								}
+								if(stringOperand_1.contains(".") || stringOperand_2.contains(".") && DoubleOperand_1 > DoubleOperand_2) {
+									nums=(int) (DoubleOperand_1 - DoubleOperand_2);
+									res = String.valueOf(nums);
+								double doubleRes = Double.valueOf(res);
+								Result.setText(String.valueOf(doubleRes));
+								}
+								else {
+								Result.setText("-"+res);
+								}
+								firstOperands.clear();
+								secondOperands.clear();
+								list.clear();
 
+								
 							
 							}
 							if(list.contains("+")) {
-								nums=operand_1 + operand_2;
-								res = String.valueOf(nums);
+								String stringOperand_1 = String.valueOf(DoubleOperand_1);
+								String stringOperand_2 = String.valueOf(DoubleOperand_2);
 								if(operand_1 > operand_2) {
+									nums=operand_1 + operand_2;
+									res = String.valueOf(nums);
 								Result.setText(res);
+								}
+								if(stringOperand_1.contains(".") || stringOperand_2.contains(".") && DoubleOperand_1 > DoubleOperand_2) {
+									nums=(int) (DoubleOperand_1 + DoubleOperand_2);
+									res = String.valueOf(nums);
+								double doubleRes = Double.valueOf(res);
+								Result.setText(String.valueOf(doubleRes));
 								}
 								else {
 								Result.setText("-"+res);
@@ -604,31 +633,49 @@ public class MainPanel extends JFrame {
 							
 							}
 							if(list.contains("x")) {
-								nums=operand_1 * operand_2;
-								res = String.valueOf(nums);
+								String stringOperand_1 = String.valueOf(DoubleOperand_1);
+								String stringOperand_2 = String.valueOf(DoubleOperand_2);
 								if(operand_1 > operand_2) {
-									Result.setText(res);
-									}
-									else {
-									Result.setText("-"+res);
-									}
-									firstOperands.clear();
-									secondOperands.clear();
-									list.clear();
-
+									nums=operand_1 * operand_2;
+									res = String.valueOf(nums);
+								Result.setText(res);
+								}
+								if(stringOperand_1.contains(".") || stringOperand_2.contains(".") && DoubleOperand_1 > DoubleOperand_2) {
+									nums=(int) (DoubleOperand_1 * DoubleOperand_2);
+									res = String.valueOf(nums);
+								double doubleRes = Double.valueOf(res);
+								Result.setText(String.valueOf(doubleRes));
+								}
+								else {
+								Result.setText("-"+res);
+								}
+								firstOperands.clear();
+								secondOperands.clear();
+								list.clear();
 							}
+							
+							
+							
 							if(list.contains("/")) {
-								nums=operand_1 / operand_2;
-								res = String.valueOf(nums);
+								String stringOperand_1 = String.valueOf(DoubleOperand_1);
+								String stringOperand_2 = String.valueOf(DoubleOperand_2);
 								if(operand_1 > operand_2) {
-									Result.setText(res);
-									}
-									else {
-									Result.setText("-"+res);
-									}
-									firstOperands.clear();
-									secondOperands.clear();
-									list.clear();
+									nums=operand_1 / operand_2;
+									res = String.valueOf(nums);
+								Result.setText(res);
+								}
+								if(stringOperand_1.contains(".") || stringOperand_2.contains(".") && DoubleOperand_1 > DoubleOperand_2) {
+									nums=(int) (DoubleOperand_1 / DoubleOperand_2);
+									res = String.valueOf(nums);
+								double doubleRes = Double.valueOf(res);
+								Result.setText(String.valueOf(doubleRes));
+								}
+								else {
+								Result.setText("-"+res);
+								}
+								firstOperands.clear();
+								secondOperands.clear();
+								list.clear();
 
 							}
 							}
