@@ -539,11 +539,12 @@ public class MainPanel extends JFrame {
 								firstOPS = new StringBuilder(firstOPS).reverse().toString();
 							    //JOptionPane.showMessageDialog(null, firstOPS);
                                 
-								if(!firstOPS.contains(".")) {
-								operand_1 = Integer.valueOf(firstOPS); /* to first Operand */
+								if(firstOPS.contains(".")) {
+						        	DoubleOperand_1 = Double.valueOf(firstOPS);
+
 								}
-								else if(firstOPS.contains(".")) {
-									DoubleOperand_1 = Double.valueOf(firstOPS); /* to first Operand */
+								else {
+								operand_1 = Integer.valueOf(firstOPS); /* to first Operand */
 								}
     
 								//locate number's - 2nd Operand
@@ -573,29 +574,29 @@ public class MainPanel extends JFrame {
 								
 								}
 							    
-								if(!secondOPS.contains(".")) {
+						        if(secondOPS.contains(".")) {
+						        	DoubleOperand_2 = Double.valueOf(secondOPS);
+						        }
+						        else {
 								operand_2 = Integer.valueOf(secondOPS); /* to second Operand */
-								}
-								else if(secondOPS.contains(".")) {
-									DoubleOperand_2 = Double.valueOf(secondOPS); /* to second Operand */
-								}
+						        }
                                // System.out.println(operand_2);
 
 								//JOptionPane.showMessageDialog(null, operand_1 + " " + operand_2);
 								
 							//MATCH OPERATORS
-							if(list.contains("-")) {
-								String stringOperand_1 = String.valueOf(DoubleOperand_1);
-								String stringOperand_2 = String.valueOf(DoubleOperand_2);
-								
-								String stringOperand_11 = String.valueOf(operand_1);
-								String stringOperand_22 = String.valueOf(operand_2);
-								if(operand_1 > operand_2 && (!stringOperand_11.contains(".") && !stringOperand_22.contains("."))) {
+							if(list.contains("-")) {			
+								String stringOperand_1 = String.valueOf(operand_1);
+								String stringOperand_2 = String.valueOf(operand_2);
+								if(operand_1 > operand_2 && (!firstOPS.contains(".") && !secondOPS.contains("."))) {
 									nums= subMethodInt(operand_1,operand_2);
 									res = String.valueOf(nums);
 								Result.setText(res);
 								}
-								if(stringOperand_1.contains(".") || stringOperand_2.contains(".") && DoubleOperand_1 > DoubleOperand_2) {
+								if(firstOPS.contains(".") || secondOPS.contains(".") ) {
+									DoubleOperand_1 = Double.valueOf(firstOPS);
+									DoubleOperand_2 = Double.valueOf(secondOPS);
+									
 									nums=(int)subMethodDouble(DoubleOperand_1,DoubleOperand_2);
 									res = String.valueOf(nums);
 								double doubleRes = Double.valueOf(res);
@@ -611,19 +612,19 @@ public class MainPanel extends JFrame {
 								
 							
 							
-							if(list.contains("+")) {
-								String stringOperand_1 = String.valueOf(DoubleOperand_1);
-								String stringOperand_2 = String.valueOf(DoubleOperand_2);
+							if(list.contains("+")) {	
+								String stringOperand_1 = String.valueOf(operand_1);
+								String stringOperand_2 = String.valueOf(operand_2);
 								
-								String stringOperand_11 = String.valueOf(operand_1);
-								String stringOperand_22 = String.valueOf(operand_2);
-								
-								if(operand_1 > operand_2 && (!stringOperand_11.contains(".") && !stringOperand_22.contains("."))) {
+								if(operand_1 > operand_2 && (!firstOPS.contains(".") && !secondOPS.contains("."))) {
 									nums= sumMethodInt(operand_1,operand_2);
 									res = String.valueOf(nums);
 								Result.setText(res);
 								}
-								if(stringOperand_1.contains(".") || stringOperand_2.contains(".") && DoubleOperand_1 > DoubleOperand_2) {
+								if(firstOPS.contains(".") || secondOPS.contains(".")) {
+									DoubleOperand_1 = Double.valueOf(firstOPS);
+									DoubleOperand_2 = Double.valueOf(secondOPS);
+									
 									nums= (int)sumMethodDouble(DoubleOperand_1,DoubleOperand_2);
 									res = String.valueOf(nums);
 								double doubleRes = Double.valueOf(res);
@@ -640,17 +641,17 @@ public class MainPanel extends JFrame {
 							
 							
 							if(list.contains("x")) {
-								String stringOperand_1 = String.valueOf(DoubleOperand_1);
-								String stringOperand_2 = String.valueOf(DoubleOperand_2);
-								
-								String stringOperand_11 = String.valueOf(operand_1);
-								String stringOperand_22 = String.valueOf(operand_2);
-								if(operand_1 > operand_2 && (!stringOperand_11.contains(".") && !stringOperand_22.contains("."))) {
+								String stringOperand_1 = String.valueOf(operand_1);
+								String stringOperand_2 = String.valueOf(operand_2);
+								if(operand_1 > operand_2 && (!firstOPS.contains(".") && !secondOPS.contains("."))) {
 									nums=multMethodInt(operand_1,operand_2);
 									res = String.valueOf(nums);
 								Result.setText(res);
 								}
-								if(stringOperand_1.contains(".") || stringOperand_2.contains(".") && DoubleOperand_1 > DoubleOperand_2) {
+								if(firstOPS.contains(".") || secondOPS.contains(".") ) {
+									DoubleOperand_1 = Double.valueOf(firstOPS);
+									DoubleOperand_2 = Double.valueOf(secondOPS);
+									
 									nums=(int)multMethodDouble(DoubleOperand_1,DoubleOperand_2);
 									res = String.valueOf(nums);
 								double doubleRes = Double.valueOf(res);
@@ -666,18 +667,18 @@ public class MainPanel extends JFrame {
 							
 							
 							
-							if(list.contains("/")) {
-								String stringOperand_1 = String.valueOf(DoubleOperand_1);
-								String stringOperand_2 = String.valueOf(DoubleOperand_2);
-								
-								String stringOperand_11 = String.valueOf(operand_1);
-								String stringOperand_22 = String.valueOf(operand_2);
-								if(operand_1 > operand_2 && (!stringOperand_11.contains(".") && !stringOperand_22.contains("."))) {
+							if(list.contains("/")) {			
+								String stringOperand_1 = String.valueOf(operand_1);
+								String stringOperand_2 = String.valueOf(operand_2);
+								if(operand_1 > operand_2 && (!firstOPS.contains(".") && !secondOPS.contains("."))) {
 									nums=divMethodInt(operand_1,operand_2);
 									res = String.valueOf(nums);
 								Result.setText(res);
 								}
-								if(stringOperand_1.contains(".") || stringOperand_2.contains(".") && DoubleOperand_1 > DoubleOperand_2) {
+								if(firstOPS.contains(".") || secondOPS.contains(".") ) {
+									DoubleOperand_1 = Double.valueOf(firstOPS);
+									DoubleOperand_2 = Double.valueOf(secondOPS);
+
 									nums=(int)divMethodDouble(DoubleOperand_1,DoubleOperand_2);
 									res = String.valueOf(nums);
 								double doubleRes = Double.valueOf(res);
