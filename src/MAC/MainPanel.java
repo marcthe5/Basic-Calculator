@@ -143,7 +143,7 @@ public class MainPanel extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-	    Result = new JLabel("New label");
+	    Result = new JLabel();
 		Result.setFont(new Font("Segoe UI Semibold", Font.BOLD, 24));
 		Result.setBounds(4, 11, 424, 76);
 		Result.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -199,11 +199,31 @@ public class MainPanel extends JFrame {
 				Csum = Csum.substring(1, Csum.length() - 1);
 				Csum = String.valueOf(Csum.replaceAll(" ",""));
 				Csum = String.valueOf(Csum.replaceAll(",",""));
-				
-				Result.setText(Csum);
-				
+				try {
+					String display = Result.getText();
+					if(display.isEmpty() == true) {
+				for(String numArr : numbers) {
+				if(!display.contains(numArr)) {
+					Csum = null;
+					Result.setText(Csum);
+
+				}
+				}
+				}
+				if(display.isEmpty() == false) {
+                for(String numArr : numbers) {
+				if(display.contains(numArr)) {
+					Csum = (sum.getLabel());
+					Result.setText(Csum);
+				}
+				}
 	
 				
+			}
+				}
+				catch(NullPointerException e2) {
+					e2.printStackTrace();
+				}
 			}
 		});
 		sum.setForeground(new Color(255, 255, 255));
@@ -225,8 +245,35 @@ public class MainPanel extends JFrame {
 				Cmult = String.valueOf(Cmult.replaceAll(" ",""));
 				Cmult = String.valueOf(Cmult.replaceAll(",",""));
 				
-				Result.setText(Cmult);
+				try {
+					String display = Result.getText();
+					if(display.isEmpty() == true) {
+				for(String numArr : numbers) {
+				if(!display.contains(numArr)) {
+					Cmult = null;
+					Result.setText(Csum);
+
+				}
+				}
+				}
+				if(display.isEmpty() == false) {
+                for(String numArr : numbers) {
+				if(display.contains(numArr)) {
+					Cmult = (mult.getLabel());
+					Result.setText(Cmult);
+				}
+				}
+	
 				
+			}
+				}
+				catch(NullPointerException e2) {
+					e2.printStackTrace();
+				}
+		
+					
+				
+								
 				
 			}
 		});
@@ -248,7 +295,31 @@ public class MainPanel extends JFrame {
 				Cdiv = String.valueOf(Cdiv.replaceAll(" ",""));
 				Cdiv = String.valueOf(Cdiv.replaceAll(",",""));
 				
-				Result.setText(Cdiv);
+				try {
+					String display = Result.getText();
+					if(display.isEmpty() == true) {
+				for(String numArr : numbers) {
+				if(!display.contains(numArr)) {
+					Cdiv = null;
+					Result.setText(Cdiv);
+
+				}
+				}
+				}
+				if(display.isEmpty() == false) {
+                for(String numArr : numbers) {
+				if(display.contains(numArr)) {
+					Cdiv = (div.getLabel());
+					Result.setText(Cdiv);
+				}
+				}
+	
+				
+			}
+				}
+				catch(NullPointerException e2) {
+					e2.printStackTrace();
+				}
 			}
 		});
 		div.setForeground(new Color(255, 255, 255));
@@ -269,7 +340,31 @@ public class MainPanel extends JFrame {
 				Csub = String.valueOf(Csub.replaceAll(" ",""));
 				Csub = String.valueOf(Csub.replaceAll(",",""));
 				
-				Result.setText(Csub);
+				try {
+					String display = Result.getText();
+					if(display.isEmpty() == true) {
+				for(String numArr : numbers) {
+				if(!display.contains(numArr)) {
+					Csub = null;
+					Result.setText(Csub);
+
+				}
+				}
+				}
+				if(display.isEmpty() == false) {
+                for(String numArr : numbers) {
+				if(display.contains(numArr)) {
+					Csub = (sub.getLabel());
+					Result.setText(Csub);
+				}
+				}
+	
+				
+			}
+				}
+				catch(NullPointerException e2) {
+					e2.printStackTrace();
+				}
 			}
 		});
 		sub.setForeground(new Color(255, 255, 255));
@@ -510,7 +605,6 @@ public class MainPanel extends JFrame {
 							//for(String lists : list) {
 							if(list.contains(OP)) {
 								operatorIndex = list.indexOf(OP);
-								
 								//forList (find operator's)
 								ListIterator<String> listIter = list.listIterator(operatorIndex); /* The ITERATOR Starts with the OPERATOR */
 								
@@ -601,8 +695,13 @@ public class MainPanel extends JFrame {
 									res = String.valueOf(nums);
 								double doubleRes = Double.valueOf(res);
 								Result.setText(String.valueOf(doubleRes));
+								firstOperands.clear();
+								secondOperands.clear();
+								list.clear();
 								}
-								else {
+								if(operand_1 < operand_2 && (!firstOPS.contains(".") && !secondOPS.contains("."))) {
+									nums= subMethodInt(operand_1,operand_2);
+									res = String.valueOf(nums);
 								Result.setText("-"+res);
 								}
 								firstOperands.clear();
@@ -629,8 +728,13 @@ public class MainPanel extends JFrame {
 									res = String.valueOf(nums);
 								double doubleRes = Double.valueOf(res);
 								Result.setText(String.valueOf(doubleRes));
+								firstOperands.clear();
+								secondOperands.clear();
+								list.clear();
 								}
-								else {
+								if(operand_1 < operand_2 && (!firstOPS.contains(".") && !secondOPS.contains("."))) {
+									nums= sumMethodInt(operand_1,operand_2);
+									res = String.valueOf(nums);
 								Result.setText("-"+res);
 								}
 								firstOperands.clear();
@@ -656,8 +760,13 @@ public class MainPanel extends JFrame {
 									res = String.valueOf(nums);
 								double doubleRes = Double.valueOf(res);
 								Result.setText(String.valueOf(doubleRes));
+								firstOperands.clear();
+								secondOperands.clear();
+								list.clear();
 								}
-								else {
+								if(operand_1 < operand_2 && (!firstOPS.contains(".") && !secondOPS.contains("."))) {
+									nums= multMethodInt(operand_1,operand_2);
+									res = String.valueOf(nums);
 								Result.setText("-"+res);
 								}
 								firstOperands.clear();
@@ -683,8 +792,13 @@ public class MainPanel extends JFrame {
 									res = String.valueOf(nums);
 								double doubleRes = Double.valueOf(res);
 								Result.setText(String.valueOf(doubleRes));
+								firstOperands.clear();
+								secondOperands.clear();
+								list.clear();
 								}
-								else {
+								if(operand_1 < operand_2 && (!firstOPS.contains(".") && !secondOPS.contains("."))) {
+									nums= divMethodInt(operand_1,operand_2);
+									res = String.valueOf(nums);
 								Result.setText("-"+res);
 								}
 								firstOperands.clear();
@@ -692,7 +806,6 @@ public class MainPanel extends JFrame {
 								list.clear();
 							}
 							}
-							
 				}
 				            
 				          
