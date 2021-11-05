@@ -102,6 +102,8 @@ public class MainPanel extends JFrame {
 	
 	//listChecking
     protected boolean listProceed = false;
+    protected String resultDisplay;
+  
 
 	GetSet gs = new GetSet();
 
@@ -192,18 +194,23 @@ public class MainPanel extends JFrame {
 		JButton sum = new JButton("+");
 		sum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OP = "+";
 				Csum = (sum.getLabel());
+				OP = Csum;
 				list.add(String.valueOf(Csum));
 				Csum = list.toString();
 				Csum = Csum.substring(1, Csum.length() - 1);
 				Csum = String.valueOf(Csum.replaceAll(" ",""));
 				Csum = String.valueOf(Csum.replaceAll(",",""));
-				try {
+				
+				checkCalculation(list,OP,Result);
+				//Result.setText(checkCalculation(list,OP,Result));
+				/*
+				 try {
+				 
 					String display = Result.getText();
 					if(display.isEmpty() == true) {
 				for(String numArr : numbers) {
-				if(!display.contains(numArr)) {
+				if(display.contains(numArr) == false) {
 					Csum = null;
 					Result.setText(Csum);
 
@@ -212,7 +219,7 @@ public class MainPanel extends JFrame {
 				}
 				if(display.isEmpty() == false) {
                 for(String numArr : numbers) {
-				if(display.contains(numArr)) {
+				if(display.contains(numArr) == true) {
 					Csum = (sum.getLabel());
 					Result.setText(Csum);
 				}
@@ -224,6 +231,7 @@ public class MainPanel extends JFrame {
 				catch(NullPointerException e2) {
 					e2.printStackTrace();
 				}
+				*/
 			}
 		});
 		sum.setForeground(new Color(255, 255, 255));
@@ -251,7 +259,7 @@ public class MainPanel extends JFrame {
 				for(String numArr : numbers) {
 				if(!display.contains(numArr)) {
 					Cmult = null;
-					Result.setText(Csum);
+					Result.setText(Cmult);
 
 				}
 				}
@@ -844,6 +852,55 @@ public class MainPanel extends JFrame {
 		equals_bttn.setFont(new Font("Segoe UI", Font.BOLD, 36));
 		equals_bttn.setBounds(88, 394, 258, 58);
 		contentPane.add(equals_bttn);
+	}
+	public static String checkCalculation (ArrayList<String> lists, String operator, JLabel display) {
+		boolean listProceed = false;
+		int operatorIndex;
+		String operatorNone;
+		Object prevList = null;
+		Object nextList = null;
+		String result ;
+		
+	
+		try {
+		//locate operator's
+        if(!lists.isEmpty()) {
+        	listProceed = true;
+        }
+        if(listProceed == true) {
+		if(lists.contains(OP)) {
+			operatorIndex = lists.indexOf(OP);
+			//forList (find operator's)
+			ListIterator<String> listIter = lists.listIterator(operatorIndex); /* The ITERATOR Starts with the OPERATOR */
+			
+			//Operator Checking
+			while(listIter.hasPrevious()) {
+				prevList = listIter.hasPrevious();
+			
+                  if(prevList.toString().equals(OP) == false) {
+                	 display.setText("a");
+                     return result = display.getText(); 
+                  }          
+                  if(prevList.toString().equals(OP) == true) {
+                	  operatorIndex = lists.indexOf(OP);
+                	  operatorNone =  lists.remove(operatorIndex);
+                	  display.setText("b");
+                     return result = display.getText(); 
+                	  
+                  }			
+		}
+        }
+		
+
+		
+}
+		}
+		catch(NullPointerException e2) {
+			e2.printStackTrace();
+		}
+		
+        return result = display.getText();
+
 	}
 	//OVERLOADING METHOD (OPERATORS && DECIMALS)
 	static int subMethodInt(int operand_1, int operand_2) {
