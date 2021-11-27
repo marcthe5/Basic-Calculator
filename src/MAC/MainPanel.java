@@ -83,6 +83,7 @@ public class MainPanel extends JFrame {
 	
 	//Result 
 	protected static String res;
+	protected static Double doubleRes;
 	protected int operand_1;
 	protected int operand_2;
 	protected double DoubleOperand_1;
@@ -93,8 +94,11 @@ public class MainPanel extends JFrame {
 	
 	//Output-Inputs
 	ArrayList<String> list = new ArrayList<String>();
+	ArrayList<String> list2 = new ArrayList<String>();
 	ArrayList<String> firstOperands = new ArrayList<String>();
 	ArrayList<String> secondOperands = new ArrayList<String>();
+	ArrayList<String> firstOperands2 = new ArrayList<String>();
+	ArrayList<String> secondOperands2 = new ArrayList<String>();
     protected String next;
     protected String firstOPS;
     protected String secondOPS;
@@ -701,7 +705,7 @@ public class MainPanel extends JFrame {
 									
 									nums=(int)subMethodDouble(DoubleOperand_1,DoubleOperand_2);
 									res = String.valueOf(nums);
-								double doubleRes = Double.valueOf(res);
+								 doubleRes = Double.valueOf(res);
 								Result.setText(String.valueOf(doubleRes));
 								firstOperands.clear();
 								secondOperands.clear();
@@ -734,7 +738,7 @@ public class MainPanel extends JFrame {
 									
 									nums= (int)sumMethodDouble(DoubleOperand_1,DoubleOperand_2);
 									res = String.valueOf(nums);
-								double doubleRes = Double.valueOf(res);
+								 doubleRes = Double.valueOf(res);
 								Result.setText(String.valueOf(doubleRes));
 								firstOperands.clear();
 								secondOperands.clear();
@@ -766,7 +770,7 @@ public class MainPanel extends JFrame {
 									
 									nums=(int)multMethodDouble(DoubleOperand_1,DoubleOperand_2);
 									res = String.valueOf(nums);
-								double doubleRes = Double.valueOf(res);
+								 doubleRes = Double.valueOf(res);
 								Result.setText(String.valueOf(doubleRes));
 								firstOperands.clear();
 								secondOperands.clear();
@@ -798,7 +802,7 @@ public class MainPanel extends JFrame {
 
 									nums=(int)divMethodDouble(DoubleOperand_1,DoubleOperand_2);
 									res = String.valueOf(nums);
-								double doubleRes = Double.valueOf(res);
+								 doubleRes = Double.valueOf(res);
 								Result.setText(String.valueOf(doubleRes));
 								firstOperands.clear();
 								secondOperands.clear();
@@ -814,10 +818,222 @@ public class MainPanel extends JFrame {
 								list.clear();
 							}
 							}
+							
+							
+							
+							/* RESULT2 */
+							
+							if(res != null || doubleRes != null) {
+								String f_res;
+								f_res = res;
+								f_res = String.valueOf(doubleRes);
+								list2.add(f_res);
+								if(Result.getText() != null) {
+									Object resBoard = Result.getText();
+									for(String oper : operators) {
+									if(resBoard.toString().contains(oper)) {
+									list2.add(resBoard.toString());	
+									}
+									}
+								}
+								if(list2.contains(OP)) {
+									operatorIndex = list2.indexOf(OP);
+									//forList (find operator's)
+									ListIterator<String> listIter2 = list2.listIterator(operatorIndex); /* The ITERATOR Starts with the OPERATOR */
+									
+									//locate number's - 1st Operand
+									while(listIter2.hasPrevious()) {
+										firstOperands2.add(listIter2.previous());
+
+										}
+									
+									//Removing ArrayList Regex
+									firstOPS = firstOperands.toString();
+
+									if(firstOPS.contains(OP)) {
+										firstOPS = firstOPS.substring(1, firstOPS.length() - 1);
+										firstOPS = String.valueOf(firstOPS.replaceAll(OP,""));
+										firstOPS = String.valueOf(firstOPS.replaceAll(" ",""));
+										firstOPS = String.valueOf(firstOPS.replaceAll(",",""));
+									}
+									else {
+									firstOPS = firstOPS.substring(1, firstOPS.length() - 1);
+									firstOPS = String.valueOf(firstOPS.replaceAll(" ",""));
+									firstOPS = String.valueOf(firstOPS.replaceAll(",",""));
+									}
+									
+									//reverseStringMethod
+									firstOPS = new StringBuilder(firstOPS).reverse().toString();
+								    //JOptionPane.showMessageDialog(null, firstOPS);
+	                                
+									if(firstOPS.contains(".")) {
+							        	DoubleOperand_1 = Double.valueOf(firstOPS);
+
+									}
+									else {
+									operand_1 = Integer.valueOf(firstOPS); /* to first Operand */
+									}
+	    
+									//locate number's - 2nd Operand
+									while(listIter2.hasNext()) {
+										
+										next = listIter2.next(); 
+										
+										if(next.equals(OP)) {
+											while(listIter2.hasNext()) {
+	                   	            secondOperands2.add(listIter2.next()); 
+										
+									}
+									}
+									}
+									//Removing ArrayList Regex
+									secondOPS = secondOperands.toString();
+									if(secondOPS.contains(OP)) {
+										secondOPS = secondOPS.substring(1, secondOPS.length() - 1);
+										secondOPS = String.valueOf(secondOPS.replaceAll(OP,""));	
+										secondOPS = String.valueOf(secondOPS.replaceAll(" ",""));
+										secondOPS = String.valueOf(secondOPS.replaceAll(",",""));
+									}
+									else {
+									secondOPS = secondOPS.substring(1, secondOPS.length() - 1);
+									secondOPS = String.valueOf(secondOPS.replaceAll(" ",""));
+									secondOPS = String.valueOf(secondOPS.replaceAll(",",""));
+									
+									}
+									//MATCH OPERATORS
+									if(list2.contains("-")) {			
+										String stringOperand_1 = String.valueOf(operand_1);
+										String stringOperand_2 = String.valueOf(operand_2);
+										if(operand_1 > operand_2 && (!firstOPS.contains(".") && !secondOPS.contains("."))) {
+											nums= subMethodInt(operand_1,operand_2);
+											res = String.valueOf(nums);
+										Result.setText(res);
+										}
+										if(firstOPS.contains(".") || secondOPS.contains(".") ) {
+											DoubleOperand_1 = Double.valueOf(firstOPS);
+											DoubleOperand_2 = Double.valueOf(secondOPS);
+											
+											nums=(int)subMethodDouble(DoubleOperand_1,DoubleOperand_2);
+											res = String.valueOf(nums);
+										 doubleRes = Double.valueOf(res);
+										Result.setText(String.valueOf(doubleRes));
+										firstOperands.clear();
+										secondOperands.clear();
+										list.clear();
+										}
+										if(operand_1 < operand_2 && (!firstOPS.contains(".") && !secondOPS.contains("."))) {
+											nums= subMethodInt(operand_1,operand_2);
+											res = String.valueOf(nums);
+										Result.setText("-"+res);
+										}
+										firstOperands.clear();
+										secondOperands.clear();
+										list.clear();
+									}
+										
+									
+									
+									if(list2.contains("+")) {	
+										String stringOperand_1 = String.valueOf(operand_1);
+										String stringOperand_2 = String.valueOf(operand_2);
+										
+										if(operand_1 > operand_2 && (!firstOPS.contains(".") && !secondOPS.contains("."))) {
+											nums= sumMethodInt(operand_1,operand_2);
+											res = String.valueOf(nums);
+										Result.setText(res);
+										}
+										if(firstOPS.contains(".") || secondOPS.contains(".")) {
+											DoubleOperand_1 = Double.valueOf(firstOPS);
+											DoubleOperand_2 = Double.valueOf(secondOPS);
+											
+											nums= (int)sumMethodDouble(DoubleOperand_1,DoubleOperand_2);
+											res = String.valueOf(nums);
+										 doubleRes = Double.valueOf(res);
+										Result.setText(String.valueOf(doubleRes));
+										firstOperands.clear();
+										secondOperands.clear();
+										list.clear();
+										}
+										if(operand_1 < operand_2 && (!firstOPS.contains(".") && !secondOPS.contains("."))) {
+											nums= sumMethodInt(operand_1,operand_2);
+											res = String.valueOf(nums);
+										Result.setText("-"+res);
+										}
+										firstOperands.clear();
+										secondOperands.clear();
+										list.clear();
+									}
+
+									
+									
+									if(list2.contains("x")) {
+										String stringOperand_1 = String.valueOf(operand_1);
+										String stringOperand_2 = String.valueOf(operand_2);
+										if(operand_1 > operand_2 && (!firstOPS.contains(".") && !secondOPS.contains("."))) {
+											nums=multMethodInt(operand_1,operand_2);
+											res = String.valueOf(nums);
+										Result.setText(res);
+										}
+										if(firstOPS.contains(".") || secondOPS.contains(".") ) {
+											DoubleOperand_1 = Double.valueOf(firstOPS);
+											DoubleOperand_2 = Double.valueOf(secondOPS);
+											
+											nums=(int)multMethodDouble(DoubleOperand_1,DoubleOperand_2);
+											res = String.valueOf(nums);
+										 doubleRes = Double.valueOf(res);
+										Result.setText(String.valueOf(doubleRes));
+										firstOperands.clear();
+										secondOperands.clear();
+										list.clear();
+										}
+										if(operand_1 < operand_2 && (!firstOPS.contains(".") && !secondOPS.contains("."))) {
+											nums= multMethodInt(operand_1,operand_2);
+											res = String.valueOf(nums);
+										Result.setText("-"+res);
+										}
+										firstOperands.clear();
+										secondOperands.clear();
+										list.clear();
+									}
+									
+									
+									
+									if(list2.contains("/")) {			
+										String stringOperand_1 = String.valueOf(operand_1);
+										String stringOperand_2 = String.valueOf(operand_2);
+										if(operand_1 > operand_2 && (!firstOPS.contains(".") && !secondOPS.contains("."))) {
+											nums=divMethodInt(operand_1,operand_2);
+											res = String.valueOf(nums);
+										Result.setText(res);
+										}
+										if(firstOPS.contains(".") || secondOPS.contains(".") ) {
+											DoubleOperand_1 = Double.valueOf(firstOPS);
+											DoubleOperand_2 = Double.valueOf(secondOPS);
+
+											nums=(int)divMethodDouble(DoubleOperand_1,DoubleOperand_2);
+											res = String.valueOf(nums);
+										 doubleRes = Double.valueOf(res);
+										Result.setText(String.valueOf(doubleRes));
+										firstOperands.clear();
+										secondOperands.clear();
+										list.clear();
+										}
+										if(operand_1 < operand_2 && (!firstOPS.contains(".") && !secondOPS.contains("."))) {
+											nums= divMethodInt(operand_1,operand_2);
+											res = String.valueOf(nums);
+										Result.setText("-"+res);
+										}
+										firstOperands.clear();
+										secondOperands.clear();
+										list.clear();
+									}
+									}
+							}
 				}
 				            
 				          
-			}
+				            }
+				
 			
 			catch(Exception e) {
 				e.printStackTrace();
