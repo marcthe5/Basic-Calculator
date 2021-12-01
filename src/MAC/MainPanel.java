@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.ListIterator;
+import java.util.Stack;
 import java.awt.event.ActionEvent;
 import javax.swing.JSeparator;
 
@@ -107,6 +108,10 @@ public class MainPanel extends JFrame {
 	//listChecking
     protected boolean listProceed = false;
     protected String resultDisplay;
+    
+    
+    //Stacks
+    Stack<String> stacks = new Stack<String>();
   
 
 	GetSet gs = new GetSet();
@@ -161,7 +166,7 @@ public class MainPanel extends JFrame {
 		separator.setBounds(1, 98, 431, 3);
 		contentPane.add(separator);
 		
-		JButton btnClose_1 = new JButton("CLOSE");
+		JButton btnClose_1 = new JButton("OFF");
 		btnClose_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
@@ -171,10 +176,10 @@ public class MainPanel extends JFrame {
 		btnClose_1.setFont(new Font("Segoe UI", Font.BOLD, 26));
 		btnClose_1.setFocusPainted(false);
 		btnClose_1.setBackground(new Color(128, 0, 0));
-		btnClose_1.setBounds(35, 144, 359, 32);
+		btnClose_1.setBounds(35, 144, 196, 32);
 		contentPane.add(btnClose_1);
 		
-		JButton bttn_reset = new JButton("RESET");
+		JButton bttn_reset = new JButton("C");
 		bttn_reset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				list.clear();
@@ -186,7 +191,7 @@ public class MainPanel extends JFrame {
 		bttn_reset.setFont(new Font("Segoe UI", Font.BOLD, 26));
 		bttn_reset.setFocusPainted(false);
 		bttn_reset.setBackground(Color.DARK_GRAY);
-		bttn_reset.setBounds(35, 106, 359, 32);
+		bttn_reset.setBounds(35, 106, 196, 32);
 		contentPane.add(bttn_reset);
 		
 		JSeparator separator_1 = new JSeparator();
@@ -201,6 +206,7 @@ public class MainPanel extends JFrame {
 				Csum = (sum.getLabel());
 				OP = Csum;
 				list.add(String.valueOf(Csum));
+				stacks.push(Csum);
 				Csum = list.toString();
 				Csum = Csum.substring(1, Csum.length() - 1);
 				Csum = String.valueOf(Csum.replaceAll(" ",""));
@@ -252,6 +258,7 @@ public class MainPanel extends JFrame {
 				OP = "x";
 				Cmult = (mult.getLabel());
 				list.add(String.valueOf(Cmult));
+				stacks.push(Cmult);
 				Cmult = list.toString();
 				Cmult = Cmult.substring(1, Cmult.length() - 1);
 				Cmult = String.valueOf(Cmult.replaceAll(" ",""));
@@ -302,6 +309,7 @@ public class MainPanel extends JFrame {
 				OP = "/";
 				Cdiv = (div.getLabel());
 				list.add(String.valueOf(Cdiv));
+				stacks.push(Cdiv);
 				Cdiv = list.toString();
 				Cdiv = Cdiv.substring(1, Cdiv.length() - 1);
 				Cdiv = String.valueOf(Cdiv.replaceAll(" ",""));
@@ -347,6 +355,7 @@ public class MainPanel extends JFrame {
 				OP = "-";
 				Csub = (sub.getLabel());
 				list.add(String.valueOf(Csub));
+				stacks.push(Csub);
 				Csub = list.toString();
 				Csub = Csub.substring(1, Csub.length() - 1);
 				Csub = String.valueOf(Csub.replaceAll(" ",""));
@@ -392,7 +401,7 @@ public class MainPanel extends JFrame {
 				keypad1 = Integer.parseInt(num1.getLabel());
 				//list.add(Integer.valueOf(keypad2));
 				list.add(String.valueOf(keypad1));
-			
+			    stacks.push(String.valueOf(keypad1));
 				key1 = list.toString();
 				key1 = key1.substring(1, key1.length() - 1);
 				key1 = String.valueOf(key1.replaceAll(" ",""));
@@ -407,12 +416,11 @@ public class MainPanel extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				keypadDec = decimal_bttn.getLabel();
 				list.add(String.valueOf(keypadDec));
-			
+			    stacks.push(keypadDec);
 				keypadDec = list.toString();
 				keypadDec = keypadDec.substring(1, keypadDec.length() - 1);
 				keypadDec = String.valueOf(keypadDec.replaceAll(" ",""));
 				keypadDec = String.valueOf(keypadDec.replaceAll(",",""));
-				
 				Result.setText(keypadDec);
 				
 			}
@@ -437,7 +445,7 @@ public class MainPanel extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				keypad2 = Integer.parseInt(num2.getLabel());
 				list.add(String.valueOf(keypad2));
-			
+			    stacks.push(String.valueOf(keypad2));
 				key2 = list.toString();
 				key2 = key2.substring(1, key2.length() - 1);
 				key2 = String.valueOf(key2.replaceAll(" ",""));
@@ -463,7 +471,7 @@ public class MainPanel extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				keypad9 = Integer.parseInt(num3.getLabel());
 			list.add(String.valueOf(keypad9));
-		
+		    stacks.push(String.valueOf(keypad3));
 			key3 = list.toString();
 			key3 = key3.substring(1, key3.length() - 1);
 			key3 = String.valueOf(key3.replaceAll(" ",""));
@@ -484,7 +492,7 @@ public class MainPanel extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				keypad4 = Integer.parseInt(num4.getLabel());
 				list.add(String.valueOf(keypad4));
-			
+			    stacks.push(String.valueOf(keypad4));
 				key4 = list.toString();
 				key4 = key4.substring(1, key4.length() - 1);
 				key4 = String.valueOf(key4.replaceAll(" ",""));
@@ -505,7 +513,7 @@ public class MainPanel extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				keypad5 = Integer.parseInt(num5.getLabel());
 				list.add(String.valueOf(keypad5));
-			
+			    stacks.push(String.valueOf(keypad5));
 				key5 = list.toString();
 				key5 = key5.substring(1, key5.length() - 1);
 				key5 = String.valueOf(key5.replaceAll(" ",""));
@@ -526,7 +534,7 @@ public class MainPanel extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				keypad6 = Integer.parseInt(num6.getLabel());
 				list.add(String.valueOf(keypad6));
-			
+			    stacks.push(String.valueOf(keypad6));
 				key6 = list.toString();
 				key6 = key6.substring(1, key6.length() - 1);
 				key6 = String.valueOf(key6.replaceAll(" ",""));
@@ -547,7 +555,7 @@ public class MainPanel extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				keypad9 = Integer.parseInt(num9.getLabel());
 				list.add(String.valueOf(keypad9));
-			
+			    stacks.push(String.valueOf(keypad9));
 				key9 = list.toString();
 				key9 = key9.substring(1, key9.length() - 1);
 				key9 = String.valueOf(key9.replaceAll(" ",""));
@@ -562,7 +570,7 @@ public class MainPanel extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				keypad8 = Integer.parseInt(num8.getLabel());
 				list.add(String.valueOf(keypad8));
-			
+			    stacks.push(String.valueOf(keypad8));
 				key8 = list.toString();
 				key8 = key8.substring(1, key8.length() - 1);
 				key8 = String.valueOf(key8.replaceAll(" ",""));
@@ -577,7 +585,7 @@ public class MainPanel extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				keypad7 = Integer.parseInt(num7.getLabel());
 				list.add(String.valueOf(keypad7));
-			
+			    stacks.push(String.valueOf(keypad7));
 				key7 = list.toString();
 				key7 = key7.substring(1, key7.length() - 1);
 				key7 = String.valueOf(key7.replaceAll(" ",""));
@@ -1046,7 +1054,7 @@ public class MainPanel extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				keypad0 = Integer.parseInt(num0.getLabel());
 				list.add(String.valueOf(keypad0));
-			
+			    stacks.push(String.valueOf(keypad0));
 				key0 = list.toString();
 				key0 = key0.substring(1, key0.length() - 1);
 				key0 = String.valueOf(key0.replaceAll(" ",""));
@@ -1068,6 +1076,26 @@ public class MainPanel extends JFrame {
 		equals_bttn.setFont(new Font("Segoe UI", Font.BOLD, 36));
 		equals_bttn.setBounds(88, 394, 258, 58);
 		contentPane.add(equals_bttn);
+		
+		JButton backspace = new JButton("DEL");
+		backspace.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				stacks.pop();
+				String stckfix = String.valueOf(stacks);
+				
+				stckfix = stckfix.substring(1, stckfix.length() - 1);
+				stckfix = String.valueOf(stckfix.replaceAll(" ",""));
+				stckfix = String.valueOf(stckfix.replaceAll(",",""));
+				Result.setText(stckfix);
+				
+				}
+		});
+		backspace.setFocusPainted(false);
+		backspace.setFont(new Font("Segoe UI", Font.BOLD, 35));
+		backspace.setBackground(new Color(139, 0, 0));
+		backspace.setForeground(new Color(255, 255, 255));
+		backspace.setBounds(242, 106, 156, 71);
+		contentPane.add(backspace);
 	}
 	public static String checkCalculation (ArrayList<String> lists, String operator, JLabel display) {
 		boolean listProceed = false;
