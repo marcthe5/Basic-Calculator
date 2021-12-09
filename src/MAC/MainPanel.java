@@ -75,6 +75,19 @@ public class MainPanel extends JFrame {
 	protected String key9;
 	protected String key0;
 	
+	//Operands - new instance2 - Stacks
+		protected String key1s;
+		protected String key2s;
+		protected String key3s;
+		protected String key4s;
+		protected String key5s;
+		protected String key6s;
+		protected String key7s;	
+		protected String key8s;
+		protected String key9s;
+		protected String key0s;
+		
+		
 	//Operators
 	protected String Csum;
 	protected String Csub;
@@ -111,7 +124,8 @@ public class MainPanel extends JFrame {
     
     
     //Stacks
-    Stack<String> stacks = new Stack<String>();
+    static Stack<String> stacks = new Stack<String>();
+    static String stckfix;
   
 
 	GetSet gs = new GetSet();
@@ -137,7 +151,8 @@ public class MainPanel extends JFrame {
 	 * Create the frame.
 	 */
 	public MainPanel() {
-
+		
+		
 		setUndecorated(true);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -183,6 +198,7 @@ public class MainPanel extends JFrame {
 		bttn_reset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				list.clear();
+				stacks.clear();	
 				Result.setText(null);
 				
 			}
@@ -406,8 +422,9 @@ public class MainPanel extends JFrame {
 				key1 = key1.substring(1, key1.length() - 1);
 				key1 = String.valueOf(key1.replaceAll(" ",""));
 				key1 = String.valueOf(key1.replaceAll(",",""));
+				key1 = stacks.toString();
 				
-				Result.setText(key1);
+				Result.setText(stackFix(key1));
 			}
 		});
 		
@@ -421,7 +438,8 @@ public class MainPanel extends JFrame {
 				keypadDec = keypadDec.substring(1, keypadDec.length() - 1);
 				keypadDec = String.valueOf(keypadDec.replaceAll(" ",""));
 				keypadDec = String.valueOf(keypadDec.replaceAll(",",""));
-				Result.setText(keypadDec);
+				keypadDec = stacks.toString();
+				Result.setText(stackFix(keypadDec));
 				
 			}
 		});
@@ -450,8 +468,8 @@ public class MainPanel extends JFrame {
 				key2 = key2.substring(1, key2.length() - 1);
 				key2 = String.valueOf(key2.replaceAll(" ",""));
 				key2 = String.valueOf(key2.replaceAll(",",""));
-				
-				Result.setText(key2);
+				key2 = stacks.toString();
+				Result.setText(stackFix(key2));
                 
 				
 			}
@@ -469,15 +487,15 @@ public class MainPanel extends JFrame {
 		JButton num3 = new JButton("3");
 		num3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				keypad9 = Integer.parseInt(num3.getLabel());
+				keypad3 = Integer.parseInt(num3.getLabel());
 			list.add(String.valueOf(keypad9));
 		    stacks.push(String.valueOf(keypad3));
 			key3 = list.toString();
 			key3 = key3.substring(1, key3.length() - 1);
 			key3 = String.valueOf(key3.replaceAll(" ",""));
 			key3 = String.valueOf(key3.replaceAll(",",""));
-			
-			Result.setText(key3);
+			key3 = stacks.toString(); 
+			Result.setText(stackFix(key3));
 			}
 		});
 		num3.setBorder(null);
@@ -497,8 +515,8 @@ public class MainPanel extends JFrame {
 				key4 = key4.substring(1, key4.length() - 1);
 				key4 = String.valueOf(key4.replaceAll(" ",""));
 				key4 = String.valueOf(key4.replaceAll(",",""));
-				
-				Result.setText(key4);
+				key4 = stacks.toString();
+				Result.setText(stackFix(key4));
 			}
 		});
 		num4.setBorder(null);
@@ -518,8 +536,8 @@ public class MainPanel extends JFrame {
 				key5 = key5.substring(1, key5.length() - 1);
 				key5 = String.valueOf(key5.replaceAll(" ",""));
 				key5 = String.valueOf(key5.replaceAll(",",""));
-				
-				Result.setText(key5);
+				key5 = stacks.toString();
+				Result.setText(stackFix(key5));
 			}
 		});
 		num5.setBorder(null);
@@ -539,8 +557,8 @@ public class MainPanel extends JFrame {
 				key6 = key6.substring(1, key6.length() - 1);
 				key6 = String.valueOf(key6.replaceAll(" ",""));
 				key6 = String.valueOf(key6.replaceAll(",",""));
-				
-				Result.setText(key6);
+				key6 = stacks.toString();
+				Result.setText(stackFix(key6));
 			}
 		});
 		num6.setBorder(null);
@@ -560,8 +578,8 @@ public class MainPanel extends JFrame {
 				key9 = key9.substring(1, key9.length() - 1);
 				key9 = String.valueOf(key9.replaceAll(" ",""));
 				key9 = String.valueOf(key9.replaceAll(",",""));
-				
-				Result.setText(key9);
+				key9 = stacks.toString();
+				Result.setText(stackFix(key9));
 			}
 		});
 		
@@ -575,8 +593,8 @@ public class MainPanel extends JFrame {
 				key8 = key8.substring(1, key8.length() - 1);
 				key8 = String.valueOf(key8.replaceAll(" ",""));
 				key8 = String.valueOf(key8.replaceAll(",",""));
-				
-				Result.setText(key8);
+				key8 = stacks.toString();
+				Result.setText(stackFix(key8));
 			}
 		});
 		
@@ -590,8 +608,8 @@ public class MainPanel extends JFrame {
 				key7 = key7.substring(1, key7.length() - 1);
 				key7 = String.valueOf(key7.replaceAll(" ",""));
 				key7 = String.valueOf(key7.replaceAll(",",""));
-				
-				Result.setText(key7);
+				key7 = stacks.toString();
+				Result.setText(stackFix(key7));
 			}
 		});
 		num7.setBorder(null);
@@ -829,7 +847,8 @@ public class MainPanel extends JFrame {
 							
 							
 							
-							/* RESULT2 */
+		/*------------------------------------------------------------------- RESULT2 -------------------------------------------------------------------*/
+							//CALCULATION - SUCCEEDING
 							
 							if(res != null || doubleRes != null) {
 								String f_res;
@@ -1059,8 +1078,8 @@ public class MainPanel extends JFrame {
 				key0 = key0.substring(1, key0.length() - 1);
 				key0 = String.valueOf(key0.replaceAll(" ",""));
 				key0 = String.valueOf(key0.replaceAll(",",""));
-				
-				Result.setText(key0);
+				key0 = stacks.toString();
+				Result.setText(stackFix(key0));
 			}
 		});
 		num0.setBorder(null);
@@ -1081,12 +1100,9 @@ public class MainPanel extends JFrame {
 		backspace.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				stacks.pop();
-				String stckfix = String.valueOf(stacks);
+			    String stckfix2 = String.valueOf(stacks);
 				
-				stckfix = stckfix.substring(1, stckfix.length() - 1);
-				stckfix = String.valueOf(stckfix.replaceAll(" ",""));
-				stckfix = String.valueOf(stckfix.replaceAll(",",""));
-				Result.setText(stckfix);
+				Result.setText(stackFix(stckfix2));
 				
 				}
 		});
@@ -1145,6 +1161,16 @@ public class MainPanel extends JFrame {
 		
         return result = display.getText();
 
+	}
+	protected static String stackFix(String stacks) {
+		
+		stckfix = stacks.toString();
+		stckfix = stckfix.substring(1, stckfix.length() - 1);
+		stckfix = String.valueOf(stckfix.replaceAll(" ",""));
+		stckfix = String.valueOf(stckfix.replaceAll(",",""));
+		
+		return stckfix ;
+		
 	}
 	//OVERLOADING METHOD (OPERATORS && DECIMALS)
 	static int subMethodInt(int operand_1, int operand_2) {
