@@ -27,6 +27,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
+import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Stack;
 import java.awt.event.ActionEvent;
@@ -61,7 +62,7 @@ public class MainPanel extends JFrame {
 	protected int keypad9;
 	protected int keypad0;
 	protected String keypadDec;
-	protected String[] numbers = {"1","2","3","4","5","6","7","8","9","0"};
+	protected static String[] numbers = {"1","2","3","4","5","6","7","8","9","0"};
 	
 	//Operands - new instance
 	protected String key1;
@@ -107,8 +108,8 @@ public class MainPanel extends JFrame {
 	protected static String OP;
 	
 	//Output-Inputs
-	ArrayList<String> list = new ArrayList<String>();
-	ArrayList<String> list2 = new ArrayList<String>();
+	LinkedList<String> list = new LinkedList <String>();
+	LinkedList <String> list2 = new LinkedList <String>();
 	ArrayList<String> firstOperands = new ArrayList<String>();
 	ArrayList<String> secondOperands = new ArrayList<String>();
 	ArrayList<String> firstOperands2 = new ArrayList<String>();
@@ -220,44 +221,16 @@ public class MainPanel extends JFrame {
 		sum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Csum = (sum.getLabel());
-				OP = Csum;
-				list.add(String.valueOf(Csum));
+				list.add(OP);
 				stacks.push(Csum);
 				Csum = list.toString();
 				Csum = Csum.substring(1, Csum.length() - 1);
 				Csum = String.valueOf(Csum.replaceAll(" ",""));
 				Csum = String.valueOf(Csum.replaceAll(",",""));
-				
-				checkCalculation(list,OP,Result);
-				//Result.setText(checkCalculation(list,OP,Result));
-				/*
-				 try {
-				 
-					String display = Result.getText();
-					if(display.isEmpty() == true) {
-				for(String numArr : numbers) {
-				if(display.contains(numArr) == false) {
-					Csum = null;
-					Result.setText(Csum);
+				OP = Csum;
 
-				}
-				}
-				}
-				if(display.isEmpty() == false) {
-                for(String numArr : numbers) {
-				if(display.contains(numArr) == true) {
-					Csum = (sum.getLabel());
-					Result.setText(Csum);
-				}
-				}
-	
+				checkCalculation(list,OP,Result);
 				
-			}
-				}
-				catch(NullPointerException e2) {
-					e2.printStackTrace();
-				}
-				*/
 			}
 		});
 		sum.setForeground(new Color(255, 255, 255));
@@ -271,45 +244,18 @@ public class MainPanel extends JFrame {
 		JButton mult = new JButton("x");
 		mult.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OP = "x";
 				Cmult = (mult.getLabel());
-				list.add(String.valueOf(Cmult));
+				OP = Cmult;
+				list.add(OP);
 				stacks.push(Cmult);
 				Cmult = list.toString();
 				Cmult = Cmult.substring(1, Cmult.length() - 1);
 				Cmult = String.valueOf(Cmult.replaceAll(" ",""));
 				Cmult = String.valueOf(Cmult.replaceAll(",",""));
-				
-				try {
-					String display = Result.getText();
-					if(display.isEmpty() == true) {
-				for(String numArr : numbers) {
-				if(!display.contains(numArr)) {
-					Cmult = null;
-					Result.setText(Cmult);
+				Cmult = stacks.toString();
+				Result.setText(stackFix(Cmult));
 
-				}
-				}
-				}
-				if(display.isEmpty() == false) {
-                for(String numArr : numbers) {
-				if(display.contains(numArr)) {
-					Cmult = (mult.getLabel());
-					Result.setText(Cmult);
-				}
-				}
 	
-				
-			}
-				}
-				catch(NullPointerException e2) {
-					e2.printStackTrace();
-				}
-		
-					
-				
-								
-				
 			}
 		});
 		mult.setForeground(new Color(255, 255, 255));
@@ -322,40 +268,17 @@ public class MainPanel extends JFrame {
 		JButton div = new JButton("/");
 		div.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OP = "/";
 				Cdiv = (div.getLabel());
-				list.add(String.valueOf(Cdiv));
+				OP = Cdiv;
+				list.add(OP);
 				stacks.push(Cdiv);
 				Cdiv = list.toString();
 				Cdiv = Cdiv.substring(1, Cdiv.length() - 1);
 				Cdiv = String.valueOf(Cdiv.replaceAll(" ",""));
 				Cdiv = String.valueOf(Cdiv.replaceAll(",",""));
+				Cdiv = stacks.toString();
+				Result.setText(stackFix(Cdiv));
 				
-				try {
-					String display = Result.getText();
-					if(display.isEmpty() == true) {
-				for(String numArr : numbers) {
-				if(!display.contains(numArr)) {
-					Cdiv = null;
-					Result.setText(Cdiv);
-
-				}
-				}
-				}
-				if(display.isEmpty() == false) {
-                for(String numArr : numbers) {
-				if(display.contains(numArr)) {
-					Cdiv = (div.getLabel());
-					Result.setText(Cdiv);
-				}
-				}
-	
-				
-			}
-				}
-				catch(NullPointerException e2) {
-					e2.printStackTrace();
-				}
 			}
 		});
 		div.setForeground(new Color(255, 255, 255));
@@ -368,40 +291,16 @@ public class MainPanel extends JFrame {
 		JButton sub = new JButton("-");
 		sub.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OP = "-";
 				Csub = (sub.getLabel());
+				OP = Csub;
 				list.add(String.valueOf(Csub));
 				stacks.push(Csub);
 				Csub = list.toString();
 				Csub = Csub.substring(1, Csub.length() - 1);
 				Csub = String.valueOf(Csub.replaceAll(" ",""));
 				Csub = String.valueOf(Csub.replaceAll(",",""));
-				
-				try {
-					String display = Result.getText();
-					if(display.isEmpty() == true) {
-				for(String numArr : numbers) {
-				if(!display.contains(numArr)) {
-					Csub = null;
-					Result.setText(Csub);
-
-				}
-				}
-				}
-				if(display.isEmpty() == false) {
-                for(String numArr : numbers) {
-				if(display.contains(numArr)) {
-					Csub = (sub.getLabel());
-					Result.setText(Csub);
-				}
-				}
-	
-				
-			}
-				}
-				catch(NullPointerException e2) {
-					e2.printStackTrace();
-				}
+				Csub = stacks.toString();
+				Result.setText(stackFix(Csub));
 			}
 		});
 		sub.setForeground(new Color(255, 255, 255));
@@ -410,6 +309,7 @@ public class MainPanel extends JFrame {
 		sub.setBackground(Color.DARK_GRAY);
 		sub.setBounds(242, 290, 89, 94);
 		contentPane.add(sub);
+		
 		
 		JButton num1 = new JButton("1");
 		num1.addActionListener(new ActionListener() {
@@ -652,7 +552,7 @@ public class MainPanel extends JFrame {
 
 									}
 								
-								//Removing ArrayList Regex
+								//Removing Linkedlist Regex
 								firstOPS = firstOperands.toString();
 
 								if(firstOPS.contains(OP)) {
@@ -691,7 +591,7 @@ public class MainPanel extends JFrame {
 								}
 								}
 								}
-								//Removing ArrayList Regex
+								//Removing Linkedlist Regex
 								secondOPS = secondOperands.toString();
 								if(secondOPS.contains(OP)) {
 									secondOPS = secondOPS.substring(1, secondOPS.length() - 1);
@@ -847,7 +747,7 @@ public class MainPanel extends JFrame {
 							
 							
 							
-		/*------------------------------------------------------------------- RESULT2 -------------------------------------------------------------------*/
+		/*------------------------------------------------------------------- RESULT 2 -------------------------------------------------------------------*/
 							//CALCULATION - SUCCEEDING
 							
 							if(res != null || doubleRes != null) {
@@ -1113,7 +1013,7 @@ public class MainPanel extends JFrame {
 		backspace.setBounds(242, 106, 156, 71);
 		contentPane.add(backspace);
 	}
-	public static String checkCalculation (ArrayList<String> lists, String operator, JLabel display) {
+	public static String checkCalculation (LinkedList<String> list3, String operator, JLabel display) {
 		boolean listProceed = false;
 		int operatorIndex;
 		String operatorNone;
@@ -1124,31 +1024,33 @@ public class MainPanel extends JFrame {
 	
 		try {
 		//locate operator's
-        if(!lists.isEmpty()) {
+        if(!list3.isEmpty()) {
         	listProceed = true;
         }
         if(listProceed == true) {
-		if(lists.contains(OP)) {
-			operatorIndex = lists.indexOf(OP);
+		if(list3.contains(OP)) {
+			operatorIndex = list3.indexOf(OP);
 			//forList (find operator's)
-			ListIterator<String> listIter = lists.listIterator(operatorIndex); /* The ITERATOR Starts with the OPERATOR */
+			ListIterator<String> listIter = list3.listIterator(operatorIndex); /* The ITERATOR Starts with the OPERATOR */
 			
 			//Operator Checking
-			while(listIter.hasPrevious()) {
+			while(listIter.hasPrevious() == true) {
 				prevList = listIter.hasPrevious();
-			
-                  if(prevList.toString().equals(OP) == false) {
-                	 display.setText("a");
+			      
+				for(String nums : numbers) {
+                  if(prevList.toString().contains(nums)) {
+                	 display.setText(operator);
                      return result = display.getText(); 
                   }          
-                  if(prevList.toString().equals(OP) == true) {
-                	  operatorIndex = lists.indexOf(OP);
-                	  operatorNone =  lists.remove(operatorIndex);
-                	  display.setText("b");
+                  if(prevList.toString().equals(nums) == false) {
+                	  list3.remove(OP);
+                	  operatorNone = list3.toString();
+                	  display.setText(operatorNone);
                      return result = display.getText(); 
                 	  
                   }			
 		}
+			}
         }
 		
 
