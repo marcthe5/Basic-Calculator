@@ -27,6 +27,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
+import java.util.EmptyStackException;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Stack;
@@ -94,7 +95,7 @@ public class MainPanel extends JFrame {
 	protected String Csub;
 	protected String Cmult;
 	protected String Cdiv;
-	protected String[] operators = {"-", "+", "x", "/"};
+	protected static String[] operators = {"-", "+", "x", "/"};
 	
 	//Result 
 	protected static String res;
@@ -108,8 +109,8 @@ public class MainPanel extends JFrame {
 	protected static String OP;
 	
 	//Output-Inputs
-	LinkedList<String> list = new LinkedList <String>();
-	LinkedList <String> list2 = new LinkedList <String>();
+	static LinkedList<String> list = new LinkedList <String>();
+	static LinkedList <String> list2 = new LinkedList <String>();
 	ArrayList<String> firstOperands = new ArrayList<String>();
 	ArrayList<String> secondOperands = new ArrayList<String>();
 	ArrayList<String> firstOperands2 = new ArrayList<String>();
@@ -645,6 +646,7 @@ public class MainPanel extends JFrame {
 								firstOperands.clear();
 								secondOperands.clear();
 								list.clear();
+								stacks.clear();
 							}
 								
 							
@@ -678,6 +680,8 @@ public class MainPanel extends JFrame {
 								firstOperands.clear();
 								secondOperands.clear();
 								list.clear();
+								stacks.clear();
+
 							}
 
 							
@@ -710,6 +714,8 @@ public class MainPanel extends JFrame {
 								firstOperands.clear();
 								secondOperands.clear();
 								list.clear();
+								stacks.clear();
+
 							}
 							
 							
@@ -742,6 +748,8 @@ public class MainPanel extends JFrame {
 								firstOperands.clear();
 								secondOperands.clear();
 								list.clear();
+								stacks.clear();
+
 							}
 							}
 							
@@ -756,7 +764,7 @@ public class MainPanel extends JFrame {
 								f_res = String.valueOf(doubleRes);
 								list2.add(f_res);
 								if(Result.getText() != null) {
-									Object resBoard = Result.getText();
+									String resBoard = Result.getText();
 									for(String oper : operators) {
 									if(resBoard.toString().contains(oper)) {
 									list2.add(resBoard.toString());	
@@ -771,7 +779,7 @@ public class MainPanel extends JFrame {
 									//locate number's - 1st Operand
 									while(listIter2.hasPrevious()) {
 										firstOperands2.add(listIter2.previous());
-
+          
 										}
 									
 									//Removing ArrayList Regex
@@ -999,11 +1007,21 @@ public class MainPanel extends JFrame {
 		JButton backspace = new JButton("DEL");
 		backspace.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				try {
+				if(stacks.empty() == false) {
 				stacks.pop();
-			    String stckfix2 = String.valueOf(stacks);
+				}
+
+				else {
+					System.out.print("log - null");
+				}
 				
-				Result.setText(stackFix(stckfix2));
-				
+				 String stckfix2 = String.valueOf(stacks);
+				 Result.setText(stackFix(stckfix2));
+				}
+				catch(EmptyStackException e) {
+					e.printStackTrace();
+				}	
 				}
 		});
 		backspace.setFocusPainted(false);
@@ -1024,37 +1042,32 @@ public class MainPanel extends JFrame {
 	
 		try {
 		//locate operator's
-        if(!list3.isEmpty()) {
-        	listProceed = true;
-        }
-        if(listProceed == true) {
-		if(list3.contains(OP)) {
-			operatorIndex = list3.indexOf(OP);
+		//if(list3.contains(OP)) {
+			//operatorIndex = list3.indexOf(OP);
 			//forList (find operator's)
-			ListIterator<String> listIter = list3.listIterator(operatorIndex); /* The ITERATOR Starts with the OPERATOR */
+			//ListIterator<String> listIter = list3.listIterator(); /* The ITERATOR Starts with null node */
 			
 			//Operator Checking
-			while(listIter.hasPrevious() == true) {
+			/* while(listIter.hasPrevious() == true) {
 				prevList = listIter.hasPrevious();
-			      
+			  */    
+			
 				for(String nums : numbers) {
-                  if(prevList.toString().contains(nums)) {
+					for(String opss : operators) {
+                  if(list.toString().equals(nums)) {
                 	 display.setText(operator);
-                     return result = display.getText(); 
+                      result = display.getText(); 
+                      ResultDisplay(result);
                   }          
-                  if(prevList.toString().equals(nums) == false) {
-                	  list3.remove(OP);
+                  if(list.toString().equals(opss)) {
+                	  list3.remove(opss);
                 	  operatorNone = list3.toString();
                 	  display.setText(operatorNone);
-                     return result = display.getText(); 
-                	  
-                  }			
-		}
-			}
-        }
-		
+                     result = display.getText(); 
+                     ResultDisplay(result);
 
-		
+                  }
+					}
 }
 		}
 		catch(NullPointerException e2) {
@@ -1064,6 +1077,15 @@ public class MainPanel extends JFrame {
         return result = display.getText();
 
 	}
+	static void ResultDisplay (String resD) {
+		if(resD == null) {
+			 Result.setText("");
+		}
+		else {
+		 Result.setText(resD);
+		}
+	}
+	
 	protected static String stackFix(String stacks) {
 		
 		stckfix = stacks.toString();
