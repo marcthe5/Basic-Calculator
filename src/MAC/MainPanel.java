@@ -118,6 +118,9 @@ public class MainPanel extends JFrame {
     protected String next;
     protected String firstOPS;
     protected String secondOPS;
+    //Output - Succeeding
+  	ArrayList<String> resultList = new ArrayList<String>();
+  	protected String resultListed;
 
 	
 	//listChecking
@@ -129,7 +132,8 @@ public class MainPanel extends JFrame {
     static Stack<String> stacks = new Stack<String>();
     static String stckfix;
   
-
+   //Result2 -- Succeeding
+    protected String result2;
 	GetSet gs = new GetSet();
 
 	private JPanel contentPane;
@@ -201,6 +205,7 @@ public class MainPanel extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				list.clear();
 				stacks.clear();	
+				resultList.clear();
 				Result.setText(null);
 				
 			}
@@ -222,15 +227,15 @@ public class MainPanel extends JFrame {
 		sum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Csum = (sum.getLabel());
+				OP = Csum;
 				list.add(OP);
 				stacks.push(Csum);
 				Csum = list.toString();
 				Csum = Csum.substring(1, Csum.length() - 1);
 				Csum = String.valueOf(Csum.replaceAll(" ",""));
 				Csum = String.valueOf(Csum.replaceAll(",",""));
-				OP = Csum;
-
-				checkCalculation(list,OP,Result);
+                Result.setText(stackFix(Csum));
+				//checkCalculation(list,OP,Result);
 				
 			}
 		});
@@ -389,7 +394,7 @@ public class MainPanel extends JFrame {
 		num3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				keypad3 = Integer.parseInt(num3.getLabel());
-			list.add(String.valueOf(keypad9));
+			list.add(String.valueOf(keypad3));
 		    stacks.push(String.valueOf(keypad3));
 			key3 = list.toString();
 			key3 = key3.substring(1, key3.length() - 1);
@@ -537,19 +542,16 @@ public class MainPanel extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 						//locate operator's
+				           
 				            if(!list.isEmpty()) {
-				            	listProceed = true;
-				            }
-				            if(listProceed == true) {
-							//for(String lists : list) {
-							if(list.contains(OP)) {
+				            if(list.contains(OP)) {
 								operatorIndex = list.indexOf(OP);
 								//forList (find operator's)
 								ListIterator<String> listIter = list.listIterator(operatorIndex); /* The ITERATOR Starts with the OPERATOR */
 								
 								//locate number's - 1st Operand
 								while(listIter.hasPrevious()) {
-									firstOperands.add(listIter.previous());
+								firstOperands.add(listIter.previous());
 
 									}
 								
@@ -562,6 +564,8 @@ public class MainPanel extends JFrame {
 									firstOPS = String.valueOf(firstOPS.replaceAll(" ",""));
 									firstOPS = String.valueOf(firstOPS.replaceAll(",",""));
 								}
+								
+								
 								else {
 								firstOPS = firstOPS.substring(1, firstOPS.length() - 1);
 								firstOPS = String.valueOf(firstOPS.replaceAll(" ",""));
@@ -613,17 +617,16 @@ public class MainPanel extends JFrame {
 						        else {
 								operand_2 = Integer.valueOf(secondOPS); /* to second Operand */
 						        }
-                               // System.out.println(operand_2);
-
-								//JOptionPane.showMessageDialog(null, operand_1 + " " + operand_2);
+                              
 								
 							//MATCH OPERATORS
-							if(list.contains("-")) {			
+							if(list.contains("-")) {	
 								String stringOperand_1 = String.valueOf(operand_1);
 								String stringOperand_2 = String.valueOf(operand_2);
 								if(operand_1 > operand_2 && (!firstOPS.contains(".") && !secondOPS.contains("."))) {
 									nums= subMethodInt(operand_1,operand_2);
 									res = String.valueOf(nums);
+									resultList.add(res);
 								Result.setText(res);
 								}
 								if(firstOPS.contains(".") || secondOPS.contains(".") ) {
@@ -633,6 +636,7 @@ public class MainPanel extends JFrame {
 									nums=(int)subMethodDouble(DoubleOperand_1,DoubleOperand_2);
 									res = String.valueOf(nums);
 								 doubleRes = Double.valueOf(res);
+									resultList.add(doubleRes.toString());
 								Result.setText(String.valueOf(doubleRes));
 								firstOperands.clear();
 								secondOperands.clear();
@@ -641,6 +645,7 @@ public class MainPanel extends JFrame {
 								if(operand_1 < operand_2 && (!firstOPS.contains(".") && !secondOPS.contains("."))) {
 									nums= subMethodInt(operand_1,operand_2);
 									res = String.valueOf(nums);
+									resultList.add(res);
 								Result.setText("-"+res);
 								}
 								firstOperands.clear();
@@ -658,6 +663,7 @@ public class MainPanel extends JFrame {
 								if(operand_1 > operand_2 && (!firstOPS.contains(".") && !secondOPS.contains("."))) {
 									nums= sumMethodInt(operand_1,operand_2);
 									res = String.valueOf(nums);
+									resultList.add(res);
 								Result.setText(res);
 								}
 								if(firstOPS.contains(".") || secondOPS.contains(".")) {
@@ -667,6 +673,7 @@ public class MainPanel extends JFrame {
 									nums= (int)sumMethodDouble(DoubleOperand_1,DoubleOperand_2);
 									res = String.valueOf(nums);
 								 doubleRes = Double.valueOf(res);
+									resultList.add(doubleRes.toString());
 								Result.setText(String.valueOf(doubleRes));
 								firstOperands.clear();
 								secondOperands.clear();
@@ -675,6 +682,7 @@ public class MainPanel extends JFrame {
 								if(operand_1 < operand_2 && (!firstOPS.contains(".") && !secondOPS.contains("."))) {
 									nums= sumMethodInt(operand_1,operand_2);
 									res = String.valueOf(nums);
+									resultList.add(res);
 								Result.setText("-"+res);
 								}
 								firstOperands.clear();
@@ -692,6 +700,7 @@ public class MainPanel extends JFrame {
 								if(operand_1 > operand_2 && (!firstOPS.contains(".") && !secondOPS.contains("."))) {
 									nums=multMethodInt(operand_1,operand_2);
 									res = String.valueOf(nums);
+									resultList.add(res);
 								Result.setText(res);
 								}
 								if(firstOPS.contains(".") || secondOPS.contains(".") ) {
@@ -701,6 +710,7 @@ public class MainPanel extends JFrame {
 									nums=(int)multMethodDouble(DoubleOperand_1,DoubleOperand_2);
 									res = String.valueOf(nums);
 								 doubleRes = Double.valueOf(res);
+									resultList.add(doubleRes.toString());
 								Result.setText(String.valueOf(doubleRes));
 								firstOperands.clear();
 								secondOperands.clear();
@@ -709,6 +719,7 @@ public class MainPanel extends JFrame {
 								if(operand_1 < operand_2 && (!firstOPS.contains(".") && !secondOPS.contains("."))) {
 									nums= multMethodInt(operand_1,operand_2);
 									res = String.valueOf(nums);
+									resultList.add(res);
 								Result.setText("-"+res);
 								}
 								firstOperands.clear();
@@ -721,11 +732,12 @@ public class MainPanel extends JFrame {
 							
 							
 							if(list.contains("/")) {			
-								String stringOperand_1 = String.valueOf(operand_1);
+  								String stringOperand_1 = String.valueOf(operand_1);
 								String stringOperand_2 = String.valueOf(operand_2);
 								if(operand_1 > operand_2 && (!firstOPS.contains(".") && !secondOPS.contains("."))) {
 									nums=divMethodInt(operand_1,operand_2);
 									res = String.valueOf(nums);
+									resultList.add(res);
 								Result.setText(res);
 								}
 								if(firstOPS.contains(".") || secondOPS.contains(".") ) {
@@ -735,6 +747,7 @@ public class MainPanel extends JFrame {
 									nums=(int)divMethodDouble(DoubleOperand_1,DoubleOperand_2);
 									res = String.valueOf(nums);
 								 doubleRes = Double.valueOf(res);
+									resultList.add(doubleRes.toString());
 								Result.setText(String.valueOf(doubleRes));
 								firstOperands.clear();
 								secondOperands.clear();
@@ -743,6 +756,7 @@ public class MainPanel extends JFrame {
 								if(operand_1 < operand_2 && (!firstOPS.contains(".") && !secondOPS.contains("."))) {
 									nums= divMethodInt(operand_1,operand_2);
 									res = String.valueOf(nums);
+									resultList.add(res);
 								Result.setText("-"+res);
 								}
 								firstOperands.clear();
@@ -751,35 +765,28 @@ public class MainPanel extends JFrame {
 								stacks.clear();
 
 							}
-							}
-							
+				            resultListed = resultList.toString().substring(1, resultList.toString().length() -1);
+				            
+							list.add(resultListed.toString());
+
+				            
+				            
 							
 							
 		/*------------------------------------------------------------------- RESULT 2 -------------------------------------------------------------------*/
 							//CALCULATION - SUCCEEDING
-							
-							if(res != null || doubleRes != null) {
-								String f_res;
-								f_res = res;
-								f_res = String.valueOf(doubleRes);
-								list2.add(f_res);
-								if(Result.getText() != null) {
-									String resBoard = Result.getText();
-									for(String oper : operators) {
-									if(resBoard.toString().contains(oper)) {
-									list2.add(resBoard.toString());	
-									}
-									}
-								}
-								if(list2.contains(OP)) {
-									operatorIndex = list2.indexOf(OP);
+				            //JOptionPane.showMessageDialog(null, list.toString());
+				            
+							if(!list.isEmpty()){
+
+								if(list.contains(OP)) {
+									operatorIndex = list.indexOf(OP);
 									//forList (find operator's)
-									ListIterator<String> listIter2 = list2.listIterator(operatorIndex); /* The ITERATOR Starts with the OPERATOR */
+									ListIterator<String> listIter2 = list.listIterator(operatorIndex); /* The ITERATOR Starts with the OPERATOR */
 									
 									//locate number's - 1st Operand
 									while(listIter2.hasPrevious()) {
 										firstOperands2.add(listIter2.previous());
-          
 										}
 									
 									//Removing ArrayList Regex
@@ -799,7 +806,6 @@ public class MainPanel extends JFrame {
 									
 									//reverseStringMethod
 									firstOPS = new StringBuilder(firstOPS).reverse().toString();
-								    //JOptionPane.showMessageDialog(null, firstOPS);
 	                                
 									if(firstOPS.contains(".")) {
 							        	DoubleOperand_1 = Double.valueOf(firstOPS);
@@ -808,14 +814,13 @@ public class MainPanel extends JFrame {
 									else {
 									operand_1 = Integer.valueOf(firstOPS); /* to first Operand */
 									}
-	    
 									//locate number's - 2nd Operand
 									while(listIter2.hasNext()) {
 										
-										next = listIter2.next(); 
+									next = listIter2.next(); 
 										
-										if(next.equals(OP)) {
-											while(listIter2.hasNext()) {
+									if(next.equals(OP)) {
+									while(listIter2.hasNext()) {
 	                   	            secondOperands2.add(listIter2.next()); 
 										
 									}
@@ -823,6 +828,7 @@ public class MainPanel extends JFrame {
 									}
 									//Removing ArrayList Regex
 									secondOPS = secondOperands.toString();
+									
 									if(secondOPS.contains(OP)) {
 										secondOPS = secondOPS.substring(1, secondOPS.length() - 1);
 										secondOPS = String.valueOf(secondOPS.replaceAll(OP,""));	
@@ -836,7 +842,7 @@ public class MainPanel extends JFrame {
 									
 									}
 									//MATCH OPERATORS
-									if(list2.contains("-")) {			
+									if(list.contains("-")) {			
 										String stringOperand_1 = String.valueOf(operand_1);
 										String stringOperand_2 = String.valueOf(operand_2);
 										if(operand_1 > operand_2 && (!firstOPS.contains(".") && !secondOPS.contains("."))) {
@@ -864,11 +870,12 @@ public class MainPanel extends JFrame {
 										firstOperands.clear();
 										secondOperands.clear();
 										list.clear();
+										stacks.clear();
 									}
 										
 									
 									
-									if(list2.contains("+")) {	
+									if(list.contains("+")) {	
 										String stringOperand_1 = String.valueOf(operand_1);
 										String stringOperand_2 = String.valueOf(operand_2);
 										
@@ -897,11 +904,13 @@ public class MainPanel extends JFrame {
 										firstOperands.clear();
 										secondOperands.clear();
 										list.clear();
+										stacks.clear();
+
 									}
 
 									
 									
-									if(list2.contains("x")) {
+									if(list.contains("x")) {
 										String stringOperand_1 = String.valueOf(operand_1);
 										String stringOperand_2 = String.valueOf(operand_2);
 										if(operand_1 > operand_2 && (!firstOPS.contains(".") && !secondOPS.contains("."))) {
@@ -929,11 +938,13 @@ public class MainPanel extends JFrame {
 										firstOperands.clear();
 										secondOperands.clear();
 										list.clear();
+										stacks.clear();
+
 									}
 									
 									
 									
-									if(list2.contains("/")) {			
+									if(list.contains("/")) {			
 										String stringOperand_1 = String.valueOf(operand_1);
 										String stringOperand_2 = String.valueOf(operand_2);
 										if(operand_1 > operand_2 && (!firstOPS.contains(".") && !secondOPS.contains("."))) {
@@ -961,11 +972,12 @@ public class MainPanel extends JFrame {
 										firstOperands.clear();
 										secondOperands.clear();
 										list.clear();
+										stacks.clear();
 									}
 									}
 							}
 				}
-				            
+				            }
 				          
 				            }
 				
